@@ -1,0 +1,10 @@
+<page-header autoTitle="false"></page-header>
+<nz-card>
+  <article nz-typography>
+    <h2 nz-typography>{{ 'component.button' | translate }}</h2>
+    <nz-divider></nz-divider>
+    <nz-tabset [nzTabPosition]="'left'" [nzType]="'line'">
+      <nz-tab *ngFor="let tab of tabs" [nzTitle]="'Tab ' + tab"> Content of tab {{ tab }} </nz-tab>
+    </nz-tabset>
+  </article>
+</nz-card>

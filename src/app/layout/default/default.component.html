@@ -1,0 +1,101 @@
+<div class="alain-default__progress-bar" *ngIf="isFetching"></div>
+<nz-layout>
+  <nz-sider class="cscs-sidebar" nzCollapsible [nzCollapsed]="collapsed" [nzTrigger]="null">
+    <div class="d-flex align-items-center cscs-logo">
+      <a [routerLink]="['/']" class="alain-default__header-logo-link" style="width: 100%;">
+        <img class="alain-default__header-logo-expanded" src="./assets/logo-full.svg" alt="{{settings.app.name}}"
+          style="max-height:30px;" />
+        <img class="alain-default__header-logo-collapsed" src="./assets/logo.svg" alt="{{settings.app.name}}"
+          style="max-height:30px;" />
+      </a>
+    </div>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="collapsed">
+      <ng-container *ngTemplateOutlet="menuTpl; context: {$implicit: list}"></ng-container>
+      <ng-template #menuTpl let-menus>
+        <ng-container *ngFor="let menu of menus">
+          <li nz-menu-item [nzPaddingLeft]="menu._depth * 24"
+            *ngIf="(!menu.children || menu.children.length === 0) && menu._hidden !== true && !collapsed"
+            [nzDisabled]="menu.disabled" (click)="to(menu)" nz-tooltip nzPlacement="right"
+            [nzTitle]="(collapsed && menu._depth === 1) ? menu.text : ''">
+            <span title>
+              <i nz-icon [nzType]="menu.icon['value']" *ngIf="menu.icon"></i>
+              <span>{{ menu.text }}</span>
+            </span>
+          </li>
+          <li nz-menu-item *ngIf="(!menu.children || menu.children.length === 0) && menu._hidden !== true && collapsed"
+            [nzDisabled]="menu.disabled" (click)="to(menu)" nz-tooltip nzPlacement="right"
+            [nzTitle]="(collapsed && menu._depth === 1) ? menu.text : ''">
+            <span title>
+              <i nz-icon [nzType]="menu.icon['value']" *ngIf="menu.icon"></i>
+              <span>{{ menu.text }}</span>
+            </span>
+          </li>
+          <li nz-submenu [nzPaddingLeft]="menu._depth * 24"
+            *ngIf="(menu.children && menu.children.length > 0) && menu._hidden !== true && !collapsed"
+            [nzOpen]="menu.open" [nzDisabled]="menu.disabled">
+            <span title>
+              <i nz-icon [nzType]="menu.icon['value']" *ngIf="menu.icon"></i>
+              <span>{{ menu.text }}</span>
+            </span>
+            <ul>
+              <ng-container *ngTemplateOutlet="menuTpl; context: {$implicit: menu.children}"></ng-container>
+            </ul>
+          </li>
+          <li nz-submenu *ngIf="(menu.children && menu.children.length > 0) && menu._hidden !== true && collapsed"
+            [nzOpen]="menu.open" [nzDisabled]="menu.disabled">
+            <span title>
+              <i nz-icon [nzType]="menu.icon['value']" *ngIf="menu.icon"></i>
+              <span>{{ menu.text }}</span>
+            </span>
+            <ul>
+              <ng-container *ngTemplateOutlet="menuTpl; context: {$implicit: menu.children}"></ng-container>
+            </ul>
+          </li>
+        </ng-container>
+      </ng-template>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header class="cscs-header">
+      <ul class="alain-default__nav">
+        <!-- Menu -->
+        <li>
+          <div class="alain-default__nav-item" (click)="toggleCollapsedSidebar()">
+            <i nz-icon nzType="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+          </div>
+        </li>
+      </ul>
+      <ul class="alain-default__nav">
+        <!-- Settings -->
+        <li class="hidden-mobile">
+          <div class="alain-default__nav-item" nz-dropdown [nzDropdownMenu]="settingsMenu" nzTrigger="click"
+            nzPlacement="bottomRight">
+            <i nz-icon nzType="setting"></i>
+          </div>
+          <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
+            <div nz-menu style="width:200px;">
+              <div nz-menu-item>
+                <header-storage></header-storage>
+              </div>
+              <div nz-menu-item>
+                <header-i18n></header-i18n>
+              </div>
+              <div nz-menu-item>
+                <header-theme></header-theme>
+              </div>
+            </div>
+          </nz-dropdown-menu>
+        </li>
+        <li class="hidden-mobile">
+          <header-user></header-user>
+        </li>
+      </ul>
+    </nz-header>
+    <nz-content>
+      <div class="cscs-default-content">
+        <reuse-tab [mode]="2"></reuse-tab>
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

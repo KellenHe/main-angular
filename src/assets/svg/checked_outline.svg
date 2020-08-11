@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="组件分类" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon图标-Light" transform="translate(-984.000000, -310.000000)">
+            <g id="方向和建议" transform="translate(120.000000, 262.000000)">
+                <g id="General/Icon/勾选/line" transform="translate(864.000000, 48.000000)">
+                    <g id="1.通用/1.Icon图标/勾选/line">
+                        <rect id="矩形" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect>
+                        <path d="M6.21598052,11.8921049 C5.93983815,11.8921049 5.71598052,11.6682473 5.71598052,11.3921049 C5.71598052,11.1159625 5.93983815,10.8921049 6.21598052,10.8921049 L10.3469805,10.8920871 L10.3471019,1.7550871 C10.3471019,1.47894472 10.5709595,1.2550871 10.8471019,1.2550871 C11.1232443,1.2550871 11.3471019,1.47894472 11.3471019,1.7550871 L11.3471019,11.3921049 L11.3471019,11.3921049 C11.3471019,11.6375648 11.1702268,11.8417133 10.9369776,11.8840492 L10.8471019,11.8921049 L10.8471019,11.8921049 L6.21598052,11.8921049 Z" id="形状结合" fill="currentColor" fill-rule="evenodd" transform="translate(8.531541, 6.573596) rotate(-315.000000) translate(-8.531541, -6.573596) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

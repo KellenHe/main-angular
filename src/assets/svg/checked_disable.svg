@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="组件分类" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon图标-Light" transform="translate(-288.000000, -518.000000)">
+            <g id="控制" transform="translate(120.000000, 470.000000)">
+                <g id="General/Icon/Checkbox/选中不可选" transform="translate(168.000000, 48.000000)">
+                    <g id="1.通用/1.Icon图标/CheckBox/选中不可选">
+                        <rect id="矩形" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect>
+                        <g id="编组" stroke-width="1" fill-rule="evenodd" fill="#252D3E">
+                            <rect id="outline" stroke-opacity="0.15" stroke="#000000" fill-opacity="0.06" x="0.5" y="0.5" width="15" height="15" rx="2"></rect>
+                            <path d="M11.6841518,3.98958333 L11.5666924,3.99854716 C11.3736875,4.02818608 11.1970562,4.13011853 11.0753511,4.28630672 L6.802,9.699 L4.92305673,7.31775854 C4.7755747,7.13159156 4.55267381,7.02306548 4.31584821,7.02306548 L3.53571429,7.02306548 C3.11323123,7.02306548 2.87679011,7.51013418 3.1382063,7.84168641 L6.19526523,11.7146308 C6.50490669,12.1065209 7.09870583,12.1065209 7.40965542,11.716026 L12.8616855,4.80722543 C13.1255863,4.47898574 12.8868534,3.98958333 12.4642857,3.98958333 L11.6841518,3.98958333 Z" id="路径" fill-opacity="0.25"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

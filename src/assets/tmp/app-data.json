@@ -1,0 +1,53 @@
+{
+  "app": {
+    "name": "前端框架",
+    "description": "前端框架"
+  },
+  "menu": [
+    {
+      "text": "",
+      "group": true,
+      "hideInBreadcrumb": true,
+      "children": [
+        {
+          "level": 0,
+          "text": "介绍",
+          "i18n": "menu.introduce",
+          "icon": "anticon anticon-home",
+          "link": "/introduce"
+        },
+        {
+          "level": 0,
+          "text": "开始使用",
+          "i18n": "menu.started",
+          "icon": "anticon anticon-home",
+          "link": "/home"
+        },
+        {
+          "level": 0,
+          "text": "组件",
+          "i18n": "menu.components",
+          "icon": "anticon anticon-apartment",
+          "children": [
+            {
+              "text": "图标",
+              "i18n": "menu.icon",
+              "link": "/icon"
+            },
+            {
+              "text": "按钮",
+              "i18n": "menu.button",
+              "link": "/button"
+            }
+          ]
+        },
+        {
+          "level": 0,
+          "text": "构建与发布",
+          "icon": "svg:graph",
+          "i18n": "menu.deploy"
+        }
+      ]
+    }
+  ]
+}

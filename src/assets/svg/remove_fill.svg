@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="组件分类" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon图标-Light" transform="translate(-1152.000000, -310.000000)">
+            <g id="方向和建议" transform="translate(120.000000, 262.000000)">
+                <g id="General/Icon/删减/fill" transform="translate(1032.000000, 48.000000)">
+                    <g id="1.通用/1.Icon图标/删减/fill">
+                        <rect id="矩形" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect>
+                        <path d="M8,1 C4.13359375,1 1,4.13359375 1,8 C1,11.8664063 4.13359375,15 8,15 C11.8664062,15 15,11.8664063 15,8 C15,4.13359375 11.8664062,1 8,1 Z M11.6298247,8.43323585 L4.36938352,8.43385054 C4.13183874,8.43387065 3.93645555,8.23848745 3.9355179,7.99998492 C3.9355179,7.76244014 4.13095429,7.56702386 4.36945699,7.56604583 L11.6298982,7.56543114 C11.8674429,7.56541103 12.0628261,7.76079422 12.0637638,7.99929676 C12.0637638,8.21215051 11.9093408,8.39020391 11.7075208,8.42648496 L11.6298247,8.43323585 Z" id="合并形状" fill="currentColor" fill-rule="evenodd"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
