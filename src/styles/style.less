@@ -1,0 +1,70 @@
+.cus-disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.@{cscs-prefix} {
+  &-text {
+    &-primary {
+      color: @primary-color;
+
+      &:hover,
+      &:focus {
+        color: @primary-5;
+      }
+
+      &:active {
+        color: @primary-7;
+      }
+
+      &[disabled] {
+        color: fade(@primary-color, 35%);
+        .cus-disabled();
+      }
+    }
+
+    &-success {
+      color: @success;
+    }
+
+    &-warning {
+      color: @warning;
+    }
+
+    &-error {
+      color: @error;
+    }
+  }
+
+  &-bg {
+    &-primary {
+      background-color: @primary-color;
+
+      &:hover,
+      &:focus {
+        background-color: @primary-5;
+      }
+
+      &:active {
+        background-color: @primary-7;
+      }
+
+      &[disabled] {
+        background-color: fade(@primary-color, 35%);
+        .cus-disabled();
+      }
+    }
+
+    &-success {
+      background-color: @success;
+    }
+
+    &-warning {
+      background-color: @warning;
+    }
+
+    &-error {
+      background-color: @error;
+    }
+  }
+}

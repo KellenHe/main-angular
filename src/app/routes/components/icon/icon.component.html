@@ -6,7 +6,7 @@
     <ng-container *ngFor="let name of categoryNames">
       <h4 nz-typography>{{ i18nMap[name] | translate }}</h4>
       <div class="anticons-list">
-        <i *ngFor="let iconName of iconMap[name]" class="point cscsicon" nz-icon [nzType]="'svg:' + iconName"
+        <i *ngFor="let iconName of iconMap[name]" class="point cscs-icon" nz-icon [nzType]="'svg:' + iconName"
           (click)="onIconClick($event, iconName)"></i>
       </div>
     </ng-container>

@@ -1,0 +1,206 @@
+<page-header autoTitle="false"></page-header>
+<nz-card>
+  <article nz-typography>
+    <h2 nz-typography>{{ 'component.color' | translate }}</h2>
+    <nz-divider></nz-divider>
+    <h4>{{ 'component.color.primary' | translate }}</h4>
+    <div nz-row nzJustify="start">
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md cscs-bg-primary"></div>
+        <div class="mt-sm"><label>Normal: </label><span>#0b68e6</span></div>
+        <div><label>Hover: </label><span>#3389f2</span></div>
+        <div><label>Active: </label><span>#0049bf</span></div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md cscs-bg-primary" disabled></div>
+        <div class="mt-sm"><label>Disabled: </label><span>#aacaf7</span></div>
+      </div>
+    </div>
+    <nz-divider></nz-divider>
+    <h4>{{ 'component.color.navbar' | translate }}</h4>
+    <div nz-row nzJustify="start">
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md navbar-bg"></div>
+        <div class="mt-sm">bg: {{ themeMap[curTheme].navbarBg }}</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md navbar-sub-bg"></div>
+        <div class="mt-sm">sub bg: {{ themeMap[curTheme].navbarSubBg }}</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md navbar-active-bg"></div>
+        <div class="mt-sm">active bg: {{ themeMap[curTheme].navbarActiveBg }}</div>
+      </div>
+    </div>
+    <nz-divider></nz-divider>
+    <h4>{{ 'component.color.function' | translate }}</h4>
+    <div nz-row nzJustify="start">
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md cscs-bg-primary"></div>
+        <div class="mt-sm">Link: #0b68e6</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md cscs-bg-success"></div>
+        <div class="mt-sm">Success: #81d653</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md cscs-bg-warning"></div>
+        <div class="mt-sm">Warning: #fba529</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md cscs-bg-error"></div>
+        <div class="mt-sm">Error: #fa5271 </div>
+      </div>
+    </div>
+    <nz-divider></nz-divider>
+    <h4>{{ 'component.color.other' | translate }}</h4>
+    <div nz-row>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-red"></div>
+        <div class="mt-sm">Red: #FA5271</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-red-10"></div>
+        <div class="mt-sm">Red 10%: #FEEDF0</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-orange"></div>
+        <div class="mt-sm">Orange: #FBA529</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-orange-10"></div>
+        <div class="mt-sm">Orange 10%: #FEF6E9 </div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-yellow"></div>
+        <div class="mt-sm">Yellow: #F6D842</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-yellow-10"></div>
+        <div class="mt-sm">Yellow 10%: #FEFBEC</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-lime"></div>
+        <div class="mt-sm">Lime: #BDD31C</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-lime-10"></div>
+        <div class="mt-sm">Lime 10%: #F8FAE8 </div>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-green"></div>
+        <div class="mt-sm">Green: #81D653</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-green-10"></div>
+        <div class="mt-sm">Green 10%: #F2FAED</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-cyan"></div>
+        <div class="mt-sm">Cyan: #41DAD8</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-cyan-10"></div>
+        <div class="mt-sm">Cyan 10%: #ECFBFB </div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-blue"></div>
+        <div class="mt-sm">Blue: #31BAF4</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-blue-10"></div>
+        <div class="mt-sm">Blue 10%: #EAF8FD</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-dark-blue"></div>
+        <div class="mt-sm">Dark blue: #6C90F2</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-dark-blue-10"></div>
+        <div class="mt-sm">Dark blue 10%: #F0F3FD </div>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-purple"></div>
+        <div class="mt-sm">Purple: #D07DF5</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-purple-10"></div>
+        <div class="mt-sm">Purple 10%: #FAF2FE</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-pink"></div>
+        <div class="mt-sm">Pink: #F16BC4</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-pink-10"></div>
+        <div class="mt-sm">Pink 10: #FDF0F9 </div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-grey"></div>
+        <div class="mt-sm">Grey: #ACAEBD</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md others-grey-10"></div>
+        <div class="mt-sm">Grey 10%: #F6F6F8</div>
+      </div>
+    </div>
+    <nz-divider></nz-divider>
+    <h4>{{ 'component.color.neutral' | translate }}</h4>
+    <div nz-row>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-text-color"></div>
+        <div class="mt-sm">强调: {{ themeMap[curTheme].textColor }}</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-text-color-85"></div>
+        <div class="mt-sm">主要: {{ themeMap[curTheme].textColor85 }}</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-text-color-65"></div>
+        <div class="mt-sm">次要: {{ themeMap[curTheme].textColor65 }}</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-text-color-45"></div>
+        <div class="mt-sm">次次要: {{ themeMap[curTheme].textColor45 }} </div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-disabled"></div>
+        <div class="mt-sm">不可用: {{ themeMap[curTheme].disabled }}</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-body-bg"></div>
+        <div class="mt-sm">背景底色: {{ themeMap[curTheme].bodyBg }}</div>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-black-15"></div>
+        <div class="mt-sm">边框色: {{ themeMap[curTheme].borderColor }}</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-black-9"></div>
+        <div class="mt-sm">分割线: {{ themeMap[curTheme].borderColorSplit }} </div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-card-bg"></div>
+        <div class="mt-sm">卡片背景色: {{ themeMap[curTheme].cardBg }}</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-popup-bg"></div>
+        <div class="mt-sm">弹窗浮层背景色: {{ themeMap[curTheme].popupBg }}</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-table-head-bg"></div>
+        <div class="mt-sm">表头底色: {{ themeMap[curTheme].tableHeadBg }}</div>
+      </div>
+      <div nz-col nzSpan="3">
+        <div class="color-container rounded-md neutral-table-select-bg"></div>
+        <div class="mt-sm">选中色: {{ themeMap[curTheme].tableHoverBg }}</div>
+      </div>
+    </div>
+  </article>
+</nz-card>

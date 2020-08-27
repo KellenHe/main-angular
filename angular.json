@@ -15,7 +15,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist/platform",
             "index": "src/index.html",
@@ -33,7 +33,10 @@
             "scripts": [
               "node_modules/ajv/dist/ajv.bundle.js",
               "node_modules/marked/lib/marked.js"
-            ]
+            ],
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js"
+            }
           },
           "configurations": {
             "production": {

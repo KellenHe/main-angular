@@ -30,14 +30,24 @@
           "icon": "anticon anticon-apartment",
           "children": [
             {
+              "text": "色彩",
+              "i18n": "menu.color",
+              "link": "/components/color"
+            },
+            {
+              "text": "文字",
+              "i18n": "menu.typography",
+              "link": "/components/typography"
+            },
+            {
               "text": "图标",
               "i18n": "menu.icon",
-              "link": "/icon"
+              "link": "/components/icon"
             },
             {
               "text": "按钮",
               "i18n": "menu.button",
-              "link": "/button"
+              "link": "/components/button"
             }
           ]
         },

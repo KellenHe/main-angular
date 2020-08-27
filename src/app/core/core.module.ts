@@ -3,9 +3,12 @@ import { throwIfAlreadyLoaded } from './module-import-guard';
 
 import { I18NService } from './i18n/i18n.service';
 
+import { ThemeEventService } from './services/event.service';
+
 @NgModule({
   providers: [
-    I18NService
+    I18NService,
+    ThemeEventService
   ]
 })
 export class CoreModule {

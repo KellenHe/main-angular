@@ -4,11 +4,26 @@ const fs = require('fs');
 const path = require('path');
 const lessToJs = require('less-vars-to-js');
 
-function gen(type) {
+function getLessVars(lessPath) {
   const stylePath = path.join(__dirname, '../src/styles');
-  const lessPath = `${fs.readFileSync(path.join(stylePath, `theme-${type}.less`), 'utf8')}`;
+  let lessContext = fs.readFileSync(path.join(stylePath, lessPath), 'utf8');
+  const lessArr = lessContext.split(';');
+  if (lessArr && lessArr.length > 0) {
+    lessArr.forEach(arr => {
+      if (arr.indexOf('@import') === 0) {
+        lessContext = lessContext.replace(arr, '');
+        const filePath = arr.split(' ')[1].replace(/['"]+/g, '').trim();
+        lessContext = lessContext + getLessVars(filePath);
+      }
+    });
+  }
+  return lessContext;
+}
 
-  return lessToJs(`${lessPath}`, {
+function gen(type) {
+  const lessContext = getLessVars(`theme-${type}.less`);
+
+  return lessToJs(`${lessContext}`, {
     stripPrefix: true,
     resolveVariables: false,
   });

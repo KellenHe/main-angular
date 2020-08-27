@@ -9,10 +9,6 @@ import { LayoutPassportComponent } from '../layout/passport/passport.component';
 import { HomeComponent } from './home/home.component';
 // introduce pages
 import { IntroduceComponent } from './introduce/introduce.component';
-// icon pages
-import { IconDemoComponent } from './components/icon/icon.component';
-// button pages
-import { ButtonDemoComponent } from './components/button/button.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterComponent } from './passport/register/register.component';
@@ -30,8 +26,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'introduce', pathMatch: 'full' },
       { path: 'introduce', component: IntroduceComponent },
       { path: 'home', component: HomeComponent },
-      { path: 'icon', component: IconDemoComponent },
-      { path: 'button', component: ButtonDemoComponent },
+      { path: 'components', loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule) },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },

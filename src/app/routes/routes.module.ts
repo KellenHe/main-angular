@@ -8,10 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 // introduce pages
 import { IntroduceComponent } from './introduce/introduce.component';
-// icon pages
-import { IconDemoComponent } from './components/icon/icon.component';
-// button pages
-import { ButtonDemoComponent } from './components/button/button.component';
+
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterComponent } from './passport/register/register.component';
@@ -24,8 +21,6 @@ const COMPONENTS = [
   DashboardComponent,
   HomeComponent,
   IntroduceComponent,
-  IconDemoComponent,
-  ButtonDemoComponent,
   // passport pages
   UserLoginComponent,
   UserRegisterComponent,

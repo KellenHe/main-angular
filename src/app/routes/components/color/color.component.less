@@ -1,0 +1,233 @@
+@import '~@delon/theme/index';
+@import '~src/styles/theme.less';
+
+:host ::ng-deep {
+  .color-container {
+    width: 108px;
+    height: 108px;
+  }
+
+  .navbar {
+    &-bg {
+      background-color: @menu-bg;
+    }
+
+    &-sub-bg {
+      background-color: @menu-submenu-bg;
+    }
+
+    &-active-bg {
+      background-color: @menu-item-active-bg;
+    }
+  }
+
+  .others {
+    &-red {
+      background-color: @red;
+    }
+
+    &-red-10 {
+      background-color: fade(@red, 10%);
+    }
+
+    &-orange {
+      background-color: @orange;
+    }
+
+    &-orange-10 {
+      background-color: fade(@orange, 10%);
+    }
+
+    &-yellow {
+      background-color: @yellow;
+    }
+
+    &-yellow-10 {
+      background-color: fade(@yellow, 10%);
+    }
+
+    &-lime {
+      background-color: @lime;
+    }
+
+    &-lime-10 {
+      background-color: fade(@lime, 10%);
+    }
+
+    &-green {
+      background-color: @green;
+    }
+
+    &-green-10 {
+      background-color: fade(@green, 10%);
+    }
+
+    &-cyan {
+      background-color: @cyan;
+    }
+
+    &-cyan-10 {
+      background-color: fade(@cyan, 10%);
+    }
+
+    &-blue {
+      background-color: @blue;
+    }
+
+    &-blue-10 {
+      background-color: fade(@blue, 10%);
+    }
+
+    &-dark-blue {
+      background-color: @dark-blue;
+    }
+
+    &-dark-blue-10 {
+      background-color: fade(@dark-blue, 10%);
+    }
+
+    &-purple {
+      background-color: @purple;
+    }
+
+    &-purple-10 {
+      background-color: fade(@purple, 10%);
+    }
+
+    &-pink {
+      background-color: @pink;
+    }
+
+    &-pink-10 {
+      background-color: fade(@pink, 10%);
+    }
+
+    &-grey {
+      background-color: @grey;
+    }
+
+    &-grey-10 {
+      background-color: fade(@grey, 10%);
+    }
+  }
+
+  .neutral {
+    &-text-color {
+      background-color: @text-color-base;
+    }
+
+    &-text-color-85 {
+      background-color: @text-color;
+    }
+
+    &-text-color-65 {
+      background-color: @text-color-secondary;
+    }
+
+    &-text-color-45 {
+      background-color: fade(@text-color-base, 45%);
+    }
+
+    &-disabled {
+      background-color: fade(@text-color-base, 25%);
+    }
+
+    &-body-bg {
+      background-color: @layout-body-background;
+    }
+
+    &-black-15 {
+      background-color: @border-color-base;
+    }
+
+    &-black-9 {
+      background-color: @border-color-split;
+    }
+
+    &-card-bg {
+      background-color: @component-background;
+    }
+
+    &-popup-bg {
+      background-color: @popup-bg;
+    }
+
+    &-table-head-bg {
+      background-color: @table-header-bg;
+    }
+
+    &-table-select-bg {
+      background-color: @table-row-hover-bg;
+    }
+  }
+}
+
+[data-theme='dark'] {
+  @import '~src/styles/theme-dark.less';
+
+  :host ::ng-deep {
+    .navbar {
+      &-bg {
+        background-color: @menu-bg;
+      }
+
+      &-sub-bg {
+        background-color: @menu-submenu-bg;
+      }
+
+      &-active-bg {
+        background-color: @menu-item-active-bg;
+      }
+    }
+
+    .neutral {
+      &-text-color {
+        background-color: @text-color-base;
+      }
+
+      &-text-color-85 {
+        background-color: @text-color;
+      }
+
+      &-text-color-65 {
+        background-color: @text-color-secondary;
+      }
+
+      &-text-color-45 {
+        background-color: fade(@text-color-base, 45%);
+      }
+
+      &-disabled {
+        background-color: fade(@text-color-base, 25%);
+      }
+
+      &-body-bg {
+        background-color: @layout-body-background;
+      }
+
+      &-black-15 {
+        background-color: @border-color-base;
+      }
+
+      &-black-9 {
+        background-color: @border-color-split;
+      }
+
+      &-card-bg {
+        background-color: @component-background;
+      }
+
+      &-popup-bg {
+        background-color: @popup-bg;
+      }
+
+      &-table-head-bg {
+        background-color: @table-header-bg;
+      }
+
+      &-table-select-bg {
+        background-color: @table-row-hover-bg;
+      }
+    }
+  }
+}

@@ -9,7 +9,7 @@
           style="max-height:30px;" />
       </a>
     </div>
-    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="collapsed">
+    <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="collapsed">
       <ng-container *ngTemplateOutlet="menuTpl; context: {$implicit: list}"></ng-container>
       <ng-template #menuTpl let-menus>
         <ng-container *ngFor="let menu of menus">
