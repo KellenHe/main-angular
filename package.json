@@ -6,6 +6,7 @@
     "all:start": "npm-run-all --parallel start:*",
     "start:main": "npm run theme && node --max_old_space_size=10240 ./node_modules/@angular/cli/bin/ng serve --proxy-config proxy.conf.test.json --aot --port 4201",
     "start:react": "cd micro_apps/react && yarn start",
+    "react": "cd micro_apps/react && yarn start:alone",
     "build": "npm run theme && node --max_old_space_size=5120 ./node_modules/@angular/cli/bin/ng build --prod",
     "build:schematics": "./node_modules/.bin/tsc -p tsconfig.schematics.json",
     "copy:schemas": "cp --parents schematics/*/schema.json ./dist/platform/",
