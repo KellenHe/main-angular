@@ -1,16 +1,10 @@
-import React from 'react';
-import { BasicLayoutProps, Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { notification } from 'antd';
 import { history, RequestConfig } from 'umi';
-import RightContent from '@/components/RightContent';
-import Footer from '@/components/Footer';
 import { ResponseError } from 'umi-request';
 import { queryCurrent } from './services/user';
-import defaultSettings from '../config/defaultSettings';
 
 export async function getInitialState(): Promise<{
   currentUser?: API.CurrentUser;
-  settings?: LayoutSettings;
 }> {
   // 如果是登录页面，不执行
   if (history.location.pathname !== '/user/login') {
@@ -18,36 +12,14 @@ export async function getInitialState(): Promise<{
       const currentUser = await queryCurrent();
       return {
         currentUser,
-        settings: defaultSettings,
       };
     } catch (error) {
       history.push('/user/login');
     }
   }
   return {
-    settings: defaultSettings,
   };
 }
-
-export const layout = ({
-  initialState,
-}: {
-  initialState: { settings?: LayoutSettings; currentUser?: API.CurrentUser };
-}): BasicLayoutProps => {
-  return {
-    rightContentRender: () => <RightContent />,
-    disableContentMargin: false,
-    footerRender: () => <Footer />,
-    onPageChange: () => {
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser?.userid && history.location.pathname !== '/user/login') {
-        history.push('/user/login');
-      }
-    },
-    menuHeaderRender: undefined,
-    ...initialState?.settings,
-  };
-};
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -92,6 +64,12 @@ const errorHandler = (error: ResponseError) => {
   throw error;
 };
 
+const localToken = localStorage.getItem('_token') || '';
+const token: any = localToken ? JSON.parse(localToken) : {};
+
 export const request: RequestConfig = {
   errorHandler,
+  headers: {
+    Authorization: `${token.token_type} ${token.token}`
+  },
 };

@@ -66,7 +66,7 @@ const Login: LoginType = (props) => {
           },
         },
         updateActive: (activeItem) => {
-          if (!active) return;
+          if (!active) { return; }
           if (active[tabActiveType]) {
             active[tabActiveType].push(activeItem);
           } else {

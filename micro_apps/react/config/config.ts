@@ -1,6 +1,5 @@
 // https://umijs.org/config/
 import { defineConfig } from 'umi';
-import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 
 const { REACT_APP_ENV } = process.env;
@@ -8,13 +7,24 @@ const { REACT_APP_ENV } = process.env;
 export default defineConfig({
   hash: true,
   antd: {},
+  qiankun: {
+    slave: {}
+  },
+  chainWebpack(memo: any) {
+    memo.module
+      .rule('svg')
+      .exclude.add(/pages/).end();
+
+    memo.module
+      .rule('svgr')
+      .test(/.svg$/)
+      .include.add(/pages/).end()
+      .use('@svgr/webpack')
+      .loader(require.resolve('@svgr/webpack'));
+  },
+  base: '/',
   dva: {
     hmr: true,
-  },
-  layout: {
-    name: 'Ant Design Pro',
-    locale: true,
-    siderWidth: 208,
   },
   locale: {
     // default zh-CN
@@ -33,7 +43,6 @@ export default defineConfig({
   routes: [
     {
       path: '/user',
-      layout: false,
       routes: [
         {
           name: 'login',
@@ -43,10 +52,16 @@ export default defineConfig({
       ],
     },
     {
-      path: '/welcome',
-      name: 'welcome',
+      path: '/system/user',
+      name: 'userManagement',
       icon: 'smile',
-      component: './Welcome',
+      component: './system/user/user',
+    },
+    {
+      path: '/system/menu',
+      name: 'menuManagement',
+      icon: 'smile',
+      component: './system/menu/menu',
     },
     {
       path: '/admin',
@@ -71,7 +86,7 @@ export default defineConfig({
     },
     {
       path: '/',
-      redirect: '/welcome',
+      redirect: '/system/user',
     },
     {
       component: './404',
@@ -79,8 +94,10 @@ export default defineConfig({
   ],
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
-    // ...darkTheme,
-    'primary-color': defaultSettings.primaryColor,
+    'ant-prefix': 'cscs-react',
+    'pro-table-prefix-cls': 'ant-pro-table',
+    'pro-table-search-prefix-cls': 'ant-pro-table-search',
+    'pro-table-form-prefix-cls': 'ant-pro-table-form',
   },
   // @ts-ignore
   title: false,

@@ -36,25 +36,33 @@ export class StartupService {
 
   private viaHttp(resolve: any, reject: any) {
     zip(
-      this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
-      this.httpClient.get('assets/tmp/app-data.json')
+      this.httpClient.get<any>('/user/current'),
+      this.httpClient.get(`/assets/tmp/i18n/${this.i18n.defaultLang}.json`),
+      this.httpClient.get('/assets/tmp/app-data.json')
     ).pipe(
       catchError((res) => {
         console.warn(`StartupService.load: Network request failed`, res);
         resolve(null);
         return [];
       })
-    ).subscribe(([langData, appData]) => {
+    ).subscribe(([userData, langData, appData]) => {
       // Setting language data
       this.translate.setTranslation(this.i18n.defaultLang, langData);
       this.translate.setDefaultLang(this.i18n.defaultLang);
+
+      const user: any = {
+        name: userData.displayName,
+        avatar: './assets/tmp/img/2.png',
+        ...userData
+      };
 
       // Application data
       const res: any = appData;
       // Application information: including site name, description, year
       this.settingService.setApp(res.app);
+      this.setLayoutFixed();
       // User information: including name, avatar, email address
-      this.settingService.setUser(res.user);
+      this.settingService.setUser(user);
       // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
       this.aclService.setFull(true);
       // Menu data, https://ng-alain.com/theme/menu
@@ -82,8 +90,8 @@ export class StartupService {
   private viaMock(resolve: any, reject: any) {
     zip(
       this.httpClient.get<any>('/user/current'),
-      this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
-      this.httpClient.get('assets/tmp/app-data.json')
+      this.httpClient.get(`./assets/tmp/i18n/${this.i18n.defaultLang}.json?_allow_anonymous=true`),
+      this.httpClient.get('./assets/tmp/app-data.json')
     ).pipe(
       catchError((res) => {
         console.warn(`StartupService.load: Network request failed`, res);
@@ -130,9 +138,9 @@ export class StartupService {
     // https://github.com/angular/angular/issues/15088
     return new Promise((resolve, reject) => {
       // http
-      // this.viaHttp(resolve, reject);
+      this.viaHttp(resolve, reject);
       // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
-      this.viaMock(resolve, reject);
+      // this.viaMock(resolve, reject);
 
     });
   }

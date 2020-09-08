@@ -1,3 +1,4 @@
+// tslint:disable-next-line:no-namespace
 declare namespace API {
   export interface CurrentUser {
     avatar?: string;
@@ -9,7 +10,7 @@ declare namespace API {
       key: string;
       label: string;
     }[];
-    userid?: string;
+    userId?: string;
     access?: 'user' | 'guest' | 'admin';
     unreadCount?: number;
   }
@@ -31,5 +32,12 @@ declare namespace API {
     clickClose?: boolean;
     extra: any;
     status: string;
+  }
+
+  export interface TreeData {
+    key: string;
+    title: string;
+    children?: TreeData[];
+    [key: string]: any;
   }
 }

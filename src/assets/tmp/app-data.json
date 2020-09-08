@@ -53,9 +53,16 @@
         },
         {
           "level": 0,
-          "text": "构建与发布",
-          "icon": "svg:graph",
-          "i18n": "menu.deploy"
+          "text": "系统管理",
+          "icon": "svg:management",
+          "i18n": "menu.system",
+          "children": [
+            {
+              "text": "用户管理",
+              "i18n": "menu.user",
+              "link": "/system/user"
+            }
+          ]
         }
       ]
     }

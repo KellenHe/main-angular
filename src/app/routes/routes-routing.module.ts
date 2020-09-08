@@ -27,6 +27,7 @@ const routes: Routes = [
       { path: 'introduce', component: IntroduceComponent },
       { path: 'home', component: HomeComponent },
       { path: 'components', loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule) },
+      { path: 'system', loadChildren: () => import('./system/system.module').then(m => m.SystemModule) },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },

@@ -85,7 +85,7 @@ const LoginItem: React.FC<LoginItemProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    let interval: number = 0;
+    let interval = 0;
     const { countDown } = props;
     if (timing) {
       interval = window.setInterval(() => {
@@ -126,7 +126,7 @@ const LoginItem: React.FC<LoginItemProps> = (props) => {
               <Button
                 disabled={timing}
                 className={styles.getCaptcha}
-                size="large"
+                size='large'
                 onClick={() => {
                   const value = getFieldValue('mobile');
                   onGetCaptcha(value);

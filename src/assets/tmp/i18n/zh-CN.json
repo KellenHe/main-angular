@@ -14,6 +14,8 @@
   "menu.theme": "皮肤",
   "menu.dark": "暗色",
   "menu.default": "默认",
+  "menu.system": "系统管理",
+  "menu.user": "用户管理",
   "component.icon": "图标",
   "component.icon.dir.sug": "方向和建议",
   "component.icon.business": "业务相关",

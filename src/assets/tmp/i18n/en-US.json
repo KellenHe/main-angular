@@ -14,6 +14,8 @@
   "menu.theme": "Theme",
   "menu.dark": "Dark",
   "menu.default": "Default",
+  "menu.system": "System",
+  "menu.user": "User",
   "component.icon": "Icon",
   "component.icon.dir.sug": "Directions and Suggestions",
   "component.icon.business": "Business",
