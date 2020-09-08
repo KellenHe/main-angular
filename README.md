@@ -11,5 +11,7 @@
   - 微前端，可以嵌入react、vue编写的项目(预研中)
 
 建议使用yarn进行包管理。
-`yarn`安装
-`yarn start`运行
+`yarn all:install`安装
+`yarn all:start`主项目和子项目一起运行
+`yarn start:main`单独运行主项目
+`yarn react`单独运行react子项目
