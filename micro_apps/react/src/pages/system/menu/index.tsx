@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
 import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
-import { Button, Tooltip, message } from 'antd';
+import { Button, Tooltip, message, Popconfirm } from 'antd';
 import Icon from '@ant-design/icons';
 import { PlusOutlined } from '@ant-design/icons';
-import { queryMenu, addMenu } from '../services';
+import { useRequest, useAccess, Access } from 'umi';
+import { queryMenu, addMenu, updateMenu, deleteMenu } from '../services';
 import { iconMap } from './components/iconMap';
 import CreateForm from './components/createForm';
 
@@ -35,7 +36,7 @@ const handleAdd = async (fields: any) => {
 const handleUpdate = async (fields: any) => {
   const hide = message.loading('正在修改');
   try {
-    await updateUser({ ...fields });
+    await updateMenu({ ...fields });
     hide();
     message.success('修改成功');
     return true;
@@ -46,9 +47,28 @@ const handleUpdate = async (fields: any) => {
   }
 };
 
-const defaultFormValue = { authorityMenuTyped: 'catalog', menuOrder: 999 };
+/**
+ * 删除节点
+ * @param fields 参数
+ */
+const handleDelete = async (fields: any) => {
+  const hide = message.loading('正在删除');
+  try {
+    await deleteMenu({ ...fields });
+    hide();
+    message.success('删除成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('删除失败请重试！');
+    return false;
+  }
+};
+
+const defaultFormValue: any = { authorityMenuTyped: 'catalog', menuOrder: 999 };
 
 const MenuManagement: React.FC<{}> = () => {
+  const access = useAccess();
   const [isUpdate, handleIsUpdate] = useState<boolean>(false);
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [stepFormValues, setStepFormValues] = useState({...defaultFormValue});
@@ -64,18 +84,18 @@ const MenuManagement: React.FC<{}> = () => {
       hideInSearch: true,
       render: (_, record) => (
         <>
-          <Icon component={iconMap[record.iconReact]} />
+          <Icon component={iconMap[record.icon]} />
         </>
       )
     },
     {
       title: '排序',
-      dataIndex: 'sort',
+      dataIndex: 'menuOrder',
       hideInSearch: true,
     },
     {
       title: '权限标识',
-      dataIndex: 'tag',
+      dataIndex: 'menuCode',
       hideInSearch: true,
     },
     {
@@ -84,31 +104,47 @@ const MenuManagement: React.FC<{}> = () => {
       hideInSearch: true,
     },
     {
-      title: '创建日期',
-      dataIndex: 'createdAt',
-      valueType: 'dateTime',
-      hideInForm: true,
-    },
-    {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
         <>
-          <Tooltip title='修改'>
-            <Button type='primary' onClick={() => {
-              handleIsUpdate(true);
-              setStepFormValues(record);
-              handleModalVisible(true);
-            }}>修改</Button>
-          </Tooltip>
-          <Tooltip title='删除'>
-            <Button type='primary' danger>删除</Button>
-          </Tooltip>
+          <Access accessible={access.canEditMenu}>
+            <Tooltip title='修改'>
+              <Button type='primary' onClick={() => {
+                handleIsUpdate(true);
+                setStepFormValues(record);
+                handleModalVisible(true);
+              }}>修改</Button>
+            </Tooltip>
+          </Access>
+          <Access accessible={access.canDeleteMenu}>
+            <Popconfirm
+              title='是否确认删除?'
+              onConfirm={() => confirm(record)}
+              okText='确定'
+              cancelText='取消'
+            >
+              <Button type='primary' danger>删除</Button>
+            </Popconfirm>
+          </Access>
         </>
       ),
     },
   ];
+
+  const confirm = async (fields: any) => {
+    const success = await handleDelete(fields);
+    if (success) {
+      if (actionRef.current) {
+        actionRef.current.reload();
+      }
+    }
+  };
+
+  const { data } = useRequest(() => {
+    return queryMenu({});
+  });
 
   return (
     <div>
@@ -117,15 +153,17 @@ const MenuManagement: React.FC<{}> = () => {
         actionRef={actionRef}
         rowKey='key'
         toolBarRender={(action, { selectedRows }) => [
-          <Button type='primary' onClick={() => { handleModalVisible(true); handleIsUpdate(false); }}>
-            <PlusOutlined /> 新建
-          </Button>,
+          <Access accessible={access.canAddMenu}>
+            <Button type='primary' onClick={() => { handleModalVisible(true); handleIsUpdate(false); }}>
+              <PlusOutlined /> 新建
+            </Button>
+          </Access>,
         ]}
         columns={columns}
         request={queryMenu}
         pagination={false}
       />
-      {(stepFormValues && Object.keys(stepFormValues).length) || !isUpdate ? (
+      {(stepFormValues && stepFormValues.title) || !isUpdate ? (
       <CreateForm
         onCancel={() => { handleModalVisible(false); setStepFormValues({...defaultFormValue}); }}
         modalVisible={createModalVisible}
@@ -144,7 +182,8 @@ const MenuManagement: React.FC<{}> = () => {
             }
           }
         }}
-        values={stepFormValues}>
+        values={stepFormValues}
+        menuList={data}>
       </CreateForm>
       ) : null}
     </div>

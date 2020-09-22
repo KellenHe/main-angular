@@ -53,3 +53,16 @@ ol {
     min-height: 100vh;
   }
 }
+
+
+
+// 处理与主应用ng-zorro污染的样式
+#root-slave .ant-popover,
+#root-slave .ant-tooltip,
+#root-slave .ant-dropdown {
+  position: absolute;
+}
+
+#root-slave .ant-dropdown {
+  width: auto;
+}

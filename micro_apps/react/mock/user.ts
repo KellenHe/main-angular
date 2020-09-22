@@ -14,19 +14,28 @@ const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
 let access = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site' ? 'admin' : '';
 
 function queryUsers(req: Request, res: Response, u: string) {
-  const { current = 1, pageSize = 10 } = req.query;
+  const { pageNumber = 1, pageSize = 10 } = req.query;
   const tableListDataSource: any[] = [];
+  const total = (pageNumber as number) * (pageSize as number);
+  const lenght = total > 1000 ? 1000 : total;
 
   for (let i = 0; i < 10; i += 1) {
     tableListDataSource.push({
-      key: i,
-      userName: `heshi${i}`,
-      alias: `heshi`,
+      id: i,
+      username: `heshi${i}`,
+      nickName: `heshi`,
       sex: i % 2 === 0 ? 1 : 0,
-      phone: '111111',
+      mobile: '111111',
       email: `${i}@chinacscs.com`,
-      dep: '研发部',
-      status: '1',
+      departments: [{
+        id: '0-0-0',
+        departmentName: '研发部'
+      }],
+      roles: [{
+        id: 'admin',
+        roleName: '管理员'
+      }],
+      status: i % 2 === 0 ? '1' : '0',
       createdAt: new Date(),
       disabled: false,
     });
@@ -36,7 +45,7 @@ function queryUsers(req: Request, res: Response, u: string) {
     costTime: '',
     message: '',
     page: {
-      current,
+      pageNumber,
       size: pageSize,
       totalPage: 10
     },
@@ -47,8 +56,30 @@ function queryUsers(req: Request, res: Response, u: string) {
   return res.json(result);
 }
 
+function updateUser(req: Request, res: Response) {
+  console.log(req.body);
+
+  const result = {
+    success: true
+  };
+
+  return res.json(result);
+}
+
+function deleteUser(req: Request, res: Response) {
+  console.log(req.params);
+
+  const result = {
+    success: true
+  };
+
+  return res.json(result);
+}
+
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 export default {
+  'DELETE /user/basic/:id': deleteUser,
+  'PUT /user/basic': updateUser,
   '/v2.0/user/basic/list': queryUsers,
   'GET /api/getDepTreeData': [{
     title: 'parent 1',

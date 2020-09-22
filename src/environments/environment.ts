@@ -3,10 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  SERVER_URL: `v2`,
+  SERVER_URL: `api`,
   production: false,
   useHash: false,
   hmr: false,
+  reactAppAddress: '//localhost:8000/'
 };
 
 /*

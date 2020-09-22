@@ -6,12 +6,12 @@ import { environment } from '@env/environment';
 import { loadMicroApp } from 'qiankun';
 
 @Component({
-  selector: 'app-user-container',
+  selector: 'app-menu-container',
   template: `
     <div id="subapp-container"></div>
   `
 })
-export class UserContainerComponent implements OnInit, OnDestroy {
+export class MenuContainerComponent implements OnInit, OnDestroy {
 
   microApp;
 

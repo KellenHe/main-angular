@@ -1,57 +1,151 @@
 import { request } from 'umi';
-import { TableListParams, TableListItem } from './data.d';
+import { TableListParams, RoleTableListItem, Departments } from './data.d';
+
+export function queryDepTree() {
+  return request('/department/basic/tree/-1');
+}
 
 export function queryDep(params: any) {
-  return request('/v2.0/department/basic/tree', {
-    params,
+  return request('/department/basic/list', {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export function addDep(params: Departments) {
+  return request('/department/basic', {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export function updateDep(params: Departments) {
+  return request('/department/basic', {
+    method: 'PUT',
+    data: {
+      ...params
+    }
+  });
+}
+
+export function deleteDep(params: Departments) {
+  return request(`/department/basic/${params.id}`, {
+    method: 'DELETE',
   });
 }
 
 export async function addUser(params: TableListParams) {
-  return request('/api/user', {
+  return request('/user/basic', {
     method: 'POST',
     data: {
       ...params,
-      method: 'post',
     },
   });
 }
 
 export async function updateUser(params: TableListParams) {
-  return request('/api/rule', {
-    method: 'POST',
+  return request('/user/basic', {
+    method: 'PUT',
     data: {
       ...params,
-      method: 'update',
     },
   });
 }
 
-export async function queryUsers(params: TableListParams, sort: any, filter: any) {
-  const msg = await request('/v2.0/user/basic/list');
+export async function queryUsers(params: any) {
+  const msg = await request(`/user/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+
   return {
-    data: msg.value,
-    total: msg.page?.totalPage,
-    success: msg.status === '00000',
-    pageSize: msg.page.size,
-    current: params.currentPage,
+    ...msg,
+    total: msg.page.totalCount
   };
 }
 
-export async function queryMenu() {
-  const msg = await request('/v2.0/role/basic/list');
-  return {
-    data: msg.data,
-    success: msg.status === '00000',
-  } as any;
+export async function deleteUser(params: TableListParams) {
+  return request(`/user/basic/${params.id}`, {
+    method: 'DELETE',
+  });
+}
+
+export async function queryMenu(params: any) {
+  return request('/authority/menu/list', {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function updateMenu(params: any) {
+  return request('/authority/menu', {
+    method: 'PUT',
+    data: {
+      ...params
+    }
+  });
 }
 
 export async function addMenu(params: any) {
-  return request('/v2.0/authority/menu', {
+  return request('/authority/menu', {
     method: 'POST',
     data: {
       ...params,
-      method: 'post',
     },
   });
+}
+
+export async function deleteMenu(params: any) {
+  return request(`/authority/menu/${params.id}`, {
+    method: 'DELETE',
+  });
+}
+
+export async function queryRoles(params: any) {
+  return request('/role/basic/list', {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function addRole(params: any) {
+  return request('/role/basic', {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function updateRole(params: RoleTableListItem) {
+  return request('/role/basic', {
+    method: 'PUT',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function deleteRole(id: number) {
+  return request(`/role/basic/${id}`, {
+    method: 'DELETE',
+  });
+}
+
+export async function queryDictByType(type: string) {
+  return request(`/system/dict/basic/list/type/${type}`);
+}
+
+export async function queryDataRuleList(authorityDataTyped: string) {
+  return request(`/authority/rule/config/list/${authorityDataTyped}`);
 }

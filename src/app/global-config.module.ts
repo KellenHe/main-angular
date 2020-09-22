@@ -18,10 +18,14 @@ const alainConfig: AlainConfig = {
   },
   auth: {
     login_url: '/passport/login',
+    token_send_key: 'Authorization',
+    token_send_template: 'Bearer ${token}',
+    token_send_place: 'header',
+    ignores: [/\/login/, /\/assets\//]
   },
 };
 
-const alainModules = [AlainThemeModule.forRoot(), DelonACLModule.forRoot(), DelonMockModule.forRoot()];
+const alainModules = [AlainThemeModule.forRoot(), DelonACLModule.forRoot()];
 const alainProvides = [{ provide: ALAIN_CONFIG, useValue: alainConfig }];
 
 // mock

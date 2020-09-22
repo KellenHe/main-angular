@@ -55,13 +55,25 @@ export default defineConfig({
       path: '/system/user',
       name: 'userManagement',
       icon: 'smile',
-      component: './system/user/user',
+      component: './system/user',
+    },
+    {
+      path: '/system/role',
+      name: 'roleManagement',
+      icon: 'smile',
+      component: './system/role',
+    },
+    {
+      path: '/system/department',
+      name: 'DepartmentManagement',
+      icon: 'smile',
+      component: './system/department',
     },
     {
       path: '/system/menu',
       name: 'menuManagement',
       icon: 'smile',
-      component: './system/menu/menu',
+      component: './system/menu',
     },
     {
       path: '/admin',
@@ -98,6 +110,9 @@ export default defineConfig({
     'pro-table-prefix-cls': 'ant-pro-table',
     'pro-table-search-prefix-cls': 'ant-pro-table-search',
     'pro-table-form-prefix-cls': 'ant-pro-table-form',
+    'pro-column-setting-prefix-cls': 'ant-pro-table-column-setting',
+    'pro-table-alert-prefix-cls': 'ant-pro-table-alert',
+    'pro-dropdown-prefix-cls': 'ant-pro-table-dropdown',
   },
   // @ts-ignore
   title: false,

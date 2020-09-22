@@ -3,28 +3,20 @@
   <nz-form-item>
     <nz-form-control nzErrorTip="Please enter user name">
       <nz-input-group nzSize="large" nzPrefixIcon="user">
-        <input nz-input formControlName="userName" placeholder="username: heshi" />
+        <input nz-input formControlName="userName" placeholder="username: admin" />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control nzErrorTip="Please enter password">
       <nz-input-group nzSize="large" nzPrefixIcon="lock">
-        <input nz-input type="password" formControlName="password" placeholder="password: 1234" />
+        <input nz-input type="password" formControlName="password" placeholder="password: 123456" />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-col [nzSpan]="12">
-      <label nz-checkbox formControlName="remember">{{ 'app.login.remember-me' | translate }}</label>
-    </nz-col>
-    <nz-col [nzSpan]="12" class="text-right">
-      <a class="forgot" (click)="msg.error('请找欧阳锋')">{{ 'app.login.forgot-password' | translate }}</a>
-    </nz-col>
-  </nz-form-item>
-  <nz-form-item>
     <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="http.loading" nzBlock>
-      {{ 'app.login.login' | translate }}
+      登录
     </button>
   </nz-form-item>
 </form>

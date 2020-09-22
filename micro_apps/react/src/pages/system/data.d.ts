@@ -6,19 +6,45 @@ export interface TableListItem {
   sex: number;
   phone: string;
   email: string;
-  dep: string;
+  departments: Departments[];
+  roles: Roles[];
   status: string;
   createdAt: Date;
   disabled?: boolean;
+}
+
+export interface Roles {
+  id: string;
+  roleName: string;
+  roleCode: string;
+  roleTyped: string;
+}
+
+export interface Departments {
+  id: string;
+  departmentName: string;
+  departmentOrder: string;
+  parentId: string;
 }
 
 export interface TableListParams {
   status?: string;
   name?: string;
   desc?: string;
-  key?: number;
+  id?: string;
   pageSize?: number;
-  currentPage?: number;
+  current?: number;
   filter?: { [key: string]: any[] };
   sorter?: { [key: string]: any };
+}
+
+export interface RoleTableListItem {
+  id: number;
+  roleName: string;
+  roleCode: string;
+  roleTyped: string;
+  roleDesc: string;
+  menuIds: number[];
+  ruleDtos: any[];
+  rules: any[];
 }

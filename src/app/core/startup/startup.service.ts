@@ -1,5 +1,5 @@
 import { Injectable, Injector, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ArrayService } from '@delon/util';
 import { HttpClient } from '@angular/common/http';
 import { zip } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -29,51 +29,82 @@ export class StartupService {
     private titleService: TitleService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private httpClient: HttpClient,
-    private injector: Injector
+    private arrayService: ArrayService
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
 
   private viaHttp(resolve: any, reject: any) {
     zip(
-      this.httpClient.get<any>('/user/current'),
-      this.httpClient.get(`/assets/tmp/i18n/${this.i18n.defaultLang}.json`),
-      this.httpClient.get('/assets/tmp/app-data.json')
+      this.httpClient.get<any>('/user/basic/current'),
+      this.httpClient.get(`/assets/tmp/i18n/${this.i18n.defaultLang}.json?_allow_anonymous=true`),
+      this.httpClient.post('/authority/menu/list', { authorityMenuTyped: 'menu' })
     ).pipe(
       catchError((res) => {
         console.warn(`StartupService.load: Network request failed`, res);
         resolve(null);
         return [];
       })
-    ).subscribe(([userData, langData, appData]) => {
+    ).subscribe(([userData, langData, menuData]) => {
       // Setting language data
       this.translate.setTranslation(this.i18n.defaultLang, langData);
       this.translate.setDefaultLang(this.i18n.defaultLang);
 
+      const currentUser = userData.data;
       const user: any = {
-        name: userData.displayName,
+        name: currentUser.nickName,
         avatar: './assets/tmp/img/2.png',
+        userName: currentUser.username,
         ...userData
       };
 
       // Application data
-      const res: any = appData;
+      // const res: any = appData;
       // Application information: including site name, description, year
-      this.settingService.setApp(res.app);
+      // this.settingService.setApp(res.app);
       this.setLayoutFixed();
       // User information: including name, avatar, email address
       this.settingService.setUser(user);
       // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
-      this.aclService.setFull(true);
+      this.aclService.set({
+        ability: currentUser.permissions
+      });
       // Menu data, https://ng-alain.com/theme/menu
-      this.menuService.add(res.menu);
+
+      this.arrayService.visitTree(menuData.data, (item) => {
+        if (item.icon) {
+          item.icon = `svg:${item.icon}`;
+          item.acl = {
+            ability: [item.menuCode]
+          };
+        }
+      });
+      const menu = [{
+        text: '',
+        group: true,
+        hideInBreadcrumb: true,
+        children: menuData.data
+      }];
+      this.menuService.add(menu);
       // Can be set page suffix title, https://ng-alain.com/theme/title
-      this.titleService.suffix = res.app.name;
+      // this.titleService.suffix = res.app.name;
     },
       () => { },
       () => {
         resolve(null);
       });
+  }
+
+  private setAcl(privileges: any[]) {
+    if (privileges && privileges.length > 0) {
+      const codes = privileges.map(item => {
+        return item.code;
+      });
+
+      this.aclService.set({
+        ability: codes
+      });
+    }
   }
 
   private viaMockI18n(resolve: any, reject: any) {

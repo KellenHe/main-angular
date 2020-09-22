@@ -61,6 +61,18 @@
               "text": "用户管理",
               "i18n": "menu.user",
               "link": "/system/user"
+            },
+            {
+              "text": "角色管理",
+              "link": "/system/role"
+            },
+            {
+              "text": "菜单管理",
+              "link": "/system/menu"
+            },
+            {
+              "text": "部门管理",
+              "link": "/system/department"
             }
           ]
         }

@@ -9,7 +9,7 @@ interface IconSelectorComponentProps {
 }
 
 const IconSelector: React.FC<IconSelectorComponentProps> = ({ value, onChange }) => {
-  const [currentIcon, handleCurrentIcon] = useState<string>('search');
+  const [currentIcon, handleCurrentIcon] = useState<string>(value || 'search');
   const [iconVisible, handleIconVisible] = useState<boolean>(false);
 
   const selectedIcon = (iconStr: string) => {
@@ -47,6 +47,28 @@ const IconSelector: React.FC<IconSelectorComponentProps> = ({ value, onChange })
           </Col>
           <Col span={8} className='point' onClick={() => selectedIcon('development')}>
             <Icon component={iconMap.development} /> development
+          </Col>
+        </Row>
+        <Row>
+          <Col span={8} className='point' onClick={() => selectedIcon('management')}>
+            <Icon component={iconMap.management} /> management
+          </Col>
+          <Col span={8} className='point' onClick={() => selectedIcon('home')}>
+            <Icon component={iconMap.home} /> home
+          </Col>
+          <Col span={8} className='point' onClick={() => selectedIcon('search')}>
+            <Icon component={iconMap.search} /> search
+          </Col>
+        </Row>
+        <Row>
+          <Col span={8} className='point' onClick={() => selectedIcon('graph')}>
+            <Icon component={iconMap.graph} /> graph
+          </Col>
+          <Col span={8} className='point' onClick={() => selectedIcon('user1')}>
+            <Icon component={iconMap.user1} /> user1
+          </Col>
+          <Col span={8} className='point' onClick={() => selectedIcon('quality')}>
+            <Icon component={iconMap.quality} /> quality
           </Col>
         </Row>
       </div>

@@ -1,28 +1,28 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 // qiankun
 import { loadMicroApp } from 'qiankun';
 
 @Component({
-  selector: 'app-user-container',
+  selector: 'app-role-container',
   template: `
     <div id="subapp-container"></div>
   `
 })
-export class UserContainerComponent implements OnInit, OnDestroy {
+export class RoleContainerComponent implements OnInit, OnDestroy {
 
   microApp;
 
-  constructor(public http: _HttpClient, private activatedRouter: ActivatedRoute) { }
+  constructor(public http: _HttpClient, private router: Router) { }
 
   ngOnInit() {
     this.microApp = loadMicroApp(
       {
         name: 'react-app',
         entry: environment.reactAppAddress,
-        container: '#subapp-container',
+        container: '#subapp-container'
       }
     );
   }

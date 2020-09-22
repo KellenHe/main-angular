@@ -1,11 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { Row, Col, Tree, Card, message, Button, Switch, Tooltip } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Row, Col, Tree, Card, message, Button, Tooltip, Popconfirm } from 'antd';
 import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
-import { addUser, updateUser, queryDep, queryUsers } from '../services';
-import { useRequest } from 'umi';
+import { addUser, updateUser, queryDep, queryUsers, deleteUser } from '../services';
+import { useRequest, useAccess, Access } from 'umi';
 import CreateForm, { FormValueType } from './components/CreateForm';
-import { TableListItem } from '../data';
+import { TableListItem, Departments } from '../data';
 import styles from '../style.less';
 
 /**
@@ -31,7 +30,7 @@ const handleAdd = async (fields: TableListItem) => {
  * @param fields 参数
  */
 const handleUpdate = async (fields: FormValueType) => {
-  const hide = message.loading('正在配置');
+  const hide = message.loading('正在修改');
   try {
     await updateUser({ ...fields });
     hide();
@@ -44,28 +43,57 @@ const handleUpdate = async (fields: FormValueType) => {
   }
 };
 
+/**
+ * 删除节点
+ * @param fields 参数
+ */
+const handleDelete = async (fields: FormValueType) => {
+  const hide = message.loading('正在删除');
+  try {
+    await deleteUser({ ...fields });
+    hide();
+    message.success('删除成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('删除失败请重试！');
+    return false;
+  }
+};
+
 const UserManagement: React.FC<{}> = () => {
+  const access = useAccess();
   const [isUpdate, handleIsUpdate] = useState<boolean>(false);
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [stepFormValues, setStepFormValues] = useState({});
+  const [selectedDepKeys, setSelectedDepKeys] = useState<any[]>([]);
   const actionRef = useRef<ActionType>();
   const columns: ProColumns<TableListItem>[] = [
     {
+      title: '关键字',
+      dataIndex: 'keyword',
+      hideInTable: true,
+      hideInDescriptions: true,
+    },
+    {
       title: '用户名',
-      dataIndex: 'userName',
+      dataIndex: 'username',
+      hideInSearch: true,
     },
     {
       title: '昵称',
-      dataIndex: 'alias',
+      dataIndex: 'nickName',
+      hideInSearch: true,
     },
-    {
-      title: '性别',
-      dataIndex: 'sex',
-      renderText: (val: number) => (val === 1 ? '男' : '女'),
-    },
+    // {
+    //   title: '性别',
+    //   dataIndex: 'sex',
+    //   renderText: (val: number) => (val === 1 ? '男' : '女'),
+    //   hideInSearch: true,
+    // },
     {
       title: '电话',
-      dataIndex: 'phone',
+      dataIndex: 'mobile',
       hideInSearch: true,
     },
     {
@@ -75,43 +103,75 @@ const UserManagement: React.FC<{}> = () => {
     },
     {
       title: '部门',
-      dataIndex: 'dep',
+      dataIndex: 'departments',
       hideInSearch: true,
+      renderText: (val: Departments[]) => val?.map(dep => dep.departmentName).join(','),
     },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      render: (_, row) => <Switch defaultChecked />,
-    },
-    {
-      title: '创建日期',
-      dataIndex: 'createdAt',
-      valueType: 'dateTime',
-      hideInForm: true,
-    },
+    // {
+    //   title: '状态',
+    //   dataIndex: 'status',
+    //   valueEnum: {
+    //     active: { text: '激活', status: '1' },
+    //     disabled: { text: '禁用', status: '0' }
+    //   },
+    //   render: (_, row) => <Switch checked={row.status === '1' ? true : false} />,
+    // },
+    // {
+    //   title: '创建日期',
+    //   dataIndex: 'createdAt',
+    //   valueType: 'dateRange',
+    //   render: (_, row) => <span>{row.createdAt}</span>,
+    //   hideInForm: true,
+    // },
     {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
-        <>
-          <Tooltip title='修改'>
-            <Button type='primary' onClick={() => {
-              handleIsUpdate(true);
-              setStepFormValues(record);
-              handleModalVisible(true);
-            }}>修改</Button>
-          </Tooltip>
-          <Tooltip title='删除'>
-            <Button type='primary' danger>删除</Button>
-          </Tooltip>
-        </>
+        <div>
+          <Access accessible={access.canEditUser}>
+            <Tooltip title='修改'>
+              <Button type='primary' onClick={() => {
+                handleIsUpdate(true);
+                setStepFormValues({
+                  departmentIds: record.departments?.map(dep => dep.id),
+                  roleIds: record.roles?.map(role => role.id),
+                  ...record
+                });
+                handleModalVisible(true);
+              }}>修改</Button>
+            </Tooltip>
+          </Access>
+          <Access accessible={access.canDeleteUser}>
+            <Popconfirm
+              title='是否确认删除?'
+              onConfirm={async () => { confirm(record); }}
+              okText='确定'
+              cancelText='取消'
+            >
+              <Button type='primary' danger>删除</Button>
+            </Popconfirm>
+          </Access>
+        </div>
       ),
     },
   ];
 
+  const confirm = async (fields: FormValueType) => {
+    const success = await handleDelete(fields);
+    if (success) {
+      if (actionRef.current) {
+        actionRef.current.reload();
+      }
+    }
+  };
+
   const onSelect = (selectedKeys: React.Key[], info: any) => {
     console.log('selected', selectedKeys, info);
+    setSelectedDepKeys(selectedKeys);
+    if (actionRef.current) {
+      actionRef.current.reload();
+    }
   };
 
   const { data, loading } = useRequest(() => {
@@ -129,11 +189,8 @@ const UserManagement: React.FC<{}> = () => {
       <Col flex='280px'>
         <Card title='部门' style={{ marginBottom: '0px' }} className={styles.siderBarFull}>
           <Tree
-            defaultExpandedKeys={['0-0-0', '0-0-1']}
-            defaultSelectedKeys={['0-0-0', '0-0-1']}
-            defaultCheckedKeys={['0-0-0', '0-0-1']}
             onSelect={onSelect}
-            treeData={data?.data}
+            treeData={data}
           />
         </Card>
       </Col>
@@ -145,13 +202,18 @@ const UserManagement: React.FC<{}> = () => {
             search={{
               span: { xs: 24, sm: 24, md: 8, lg: 8, xl: 8, xxl: 8 }
             }}
-            rowKey='key'
+            rowKey='id'
             toolBarRender={(action, { selectedRows }) => [
-              <Button type='primary' onClick={() => { handleModalVisible(true); handleIsUpdate(false); }}>
-                <PlusOutlined /> 新建
-              </Button>,
+              <Access accessible={access.canAddUser}>
+                <Button type='primary' onClick={() => { handleModalVisible(true); handleIsUpdate(false); }}>
+                  新建
+                </Button>
+              </Access>,
             ]}
-            request={queryUsers}
+            request={(params: any) => {
+              params.departmentIds = selectedDepKeys;
+              return queryUsers(params);
+            }}
             columns={columns}
             rowSelection={{}}
           />

@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    (window as any).ngRouter = this.router;
     this.router.events.pipe(filter((evt) => evt instanceof NavigationEnd)).subscribe(() => {
       this.titleSrv.setTitle();
       this.modalSrv.closeAll();

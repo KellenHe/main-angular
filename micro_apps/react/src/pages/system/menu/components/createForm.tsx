@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRequest } from 'umi';
 import { Modal, Form, Radio, Input, Row, Col, InputNumber, TreeSelect, Button } from 'antd';
-import { queryMenu } from '../../services';
+import { queryDictByType } from '../../services';
 import IconSelector from './iconSelector';
 
 interface CreateFormProps {
@@ -9,6 +9,7 @@ interface CreateFormProps {
   onCancel: () => void;
   onSubmit: (values: any) => void;
   values: any;
+  menuList: any[];
 }
 
 const tailLayout = {
@@ -17,29 +18,22 @@ const tailLayout = {
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
   const [form] = Form.useForm();
-  const [fields, setFields] = useState({ authorityMenuTyped: 'catalog', menuOrder: 999 });
 
-  const { modalVisible, onCancel } = props;
+  const { modalVisible, onCancel, menuList } = props;
 
   const {
     onSubmit: handleUpdate,
     values
   } = props;
 
-  const { data, loading } = useRequest(() => {
-    return queryMenu();
+  const { data } = useRequest(() => {
+    return queryDictByType('authority_menu_type');
   });
-
-  if (loading) {
-    return (
-      <div>loading</div>
-    );
-  }
 
   const menuDatas = [{
     key: -1,
     title: '顶部',
-    children: data
+    children: menuList
   }];
 
   return (
@@ -53,13 +47,14 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
       <Form
         name='menuForm'
         form={form}
-        initialValues={{ ...values }}
-        onFinish={(formValues) => handleUpdate(formValues)}
+        initialValues={{ ...values, parentId: values.parentId ? values.parentId : -1 }}
+        onFinish={(formValues) => handleUpdate({ id: values.id, ...formValues, parentId: formValues.parentId !== -1 ? formValues.parentId : null })}
       >
         <Form.Item label='菜单类型' name='authorityMenuTyped'>
+          {/* <Radio.Group options={data} optionType='button' /> */}
           <Radio.Group>
-            <Radio.Button value='catalog'>目录</Radio.Button>
-            <Radio.Button value='menu'>菜单</Radio.Button>
+            <Radio.Button value='menu'>目录</Radio.Button>
+            <Radio.Button value='panel'>面板</Radio.Button>
             <Radio.Button value='button'>按钮</Radio.Button>
           </Radio.Group>
         </Form.Item>
@@ -69,15 +64,18 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
         <Form.Item label='菜单标题' name='title'>
           <Input />
         </Form.Item>
-        <Row>
+        <Form.Item label='权限标识' name='menuCode'>
+          <Input />
+        </Form.Item>
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item label='菜单排序' name='menuOrder'>
+              <InputNumber min={0} />
+            </Form.Item>
+          </Col>
           <Col span={12}>
             <Form.Item label='路由地址' name='link'>
               <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12} className='text-right'>
-            <Form.Item label='菜单排序' name='menuOrder'>
-              <InputNumber min={0} />
             </Form.Item>
           </Col>
         </Row>

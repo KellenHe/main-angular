@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { history, RequestConfig } from 'umi';
+import { history, RequestConfig, useModel } from 'umi';
 import { ResponseError } from 'umi-request';
 import { queryCurrent } from './services/user';
 
@@ -9,12 +9,13 @@ export async function getInitialState(): Promise<{
   // 如果是登录页面，不执行
   if (history.location.pathname !== '/user/login') {
     try {
-      const currentUser = await queryCurrent();
+      const results = await queryCurrent();
       return {
-        currentUser,
+        currentUser: results.data,
       };
     } catch (error) {
-      history.push('/user/login');
+      (window as any).ngRouter.navigate(['/passport/login']);
+      // history.push('/user/login');
     }
   }
   return {
@@ -67,9 +68,24 @@ const errorHandler = (error: ResponseError) => {
 const localToken = localStorage.getItem('_token') || '';
 const token: any = localToken ? JSON.parse(localToken) : {};
 
+/**
+ * 请求拦截器,添加前缀
+ * @param url 请求的url
+ */
+const requestInterceptor = (url: any) => {
+  let newUrl = url;
+  if (!url.startsWith('https://') && !url.startsWith('http://') && !url.startsWith('/assets')) {
+    newUrl = '/api' + url;
+  }
+  return {
+    url: newUrl
+  };
+};
+
 export const request: RequestConfig = {
   errorHandler,
   headers: {
     Authorization: `${token.token_type} ${token.token}`
   },
+  requestInterceptors: [requestInterceptor]
 };

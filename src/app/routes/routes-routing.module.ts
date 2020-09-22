@@ -24,8 +24,8 @@ const routes: Routes = [
     canActivate: [SimpleGuard],
     children: [
       { path: '', redirectTo: 'introduce', pathMatch: 'full' },
-      { path: 'introduce', component: IntroduceComponent },
-      { path: 'home', component: HomeComponent },
+      { path: 'introduce', component: IntroduceComponent, data: { title: '介绍' } },
+      { path: 'home', component: HomeComponent, data: { title: '开始' } },
       { path: 'components', loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule) },
       { path: 'system', loadChildren: () => import('./system/system.module').then(m => m.SystemModule) },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
@@ -45,7 +45,7 @@ const routes: Routes = [
     path: 'passport',
     component: LayoutPassportComponent,
     children: [
-      { path: 'login', component: UserLoginComponent, data: { title: '登录' } },
+      { path: 'login', component: UserLoginComponent, data: { title: '登录', reuse: false } },
       { path: 'register', component: UserRegisterComponent, data: { title: '注册' } },
       { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果' } },
       { path: 'lock', component: UserLockComponent, data: { title: '锁屏' } },
