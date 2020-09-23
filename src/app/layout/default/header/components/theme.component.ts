@@ -8,7 +8,7 @@ type SiteTheme = 'default' | 'dark';
   template: `
     <div nz-dropdown [nzDropdownMenu]="langMenu" nzPlacement="bottomRight">
       <i nz-icon nzType="svg:magic"></i>
-      {{ 'menu.theme' | translate }}
+      换肤
       <i nz-icon nzType="down"></i>
     </div>
     <nz-dropdown-menu #langMenu="nzDropdownMenu">
@@ -17,13 +17,13 @@ type SiteTheme = 'default' | 'dark';
           nz-menu-item
           (click)="onThemeChange('dark')"
         >
-          {{ 'menu.dark' | translate }}
+          暗色
         </li>
         <li
           nz-menu-item
           (click)="onThemeChange('default')"
         >
-          {{ 'menu.default' | translate }}
+          亮色
         </li>
       </ul>
     </nz-dropdown-menu>

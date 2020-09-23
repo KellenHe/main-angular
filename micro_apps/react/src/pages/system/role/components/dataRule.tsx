@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useImperativeHandle } from 'react';
 import { Form, Radio, Select, Input, TreeSelect, Button, message } from 'antd';
 import { useRequest } from 'umi';
 import { queryDataRuleList } from '../../services';
@@ -6,25 +6,32 @@ import { queryDataRuleList } from '../../services';
 const FormItem = Form.Item;
 
 interface DataRuleComponentProps {
-  value?: any[];
+  values?: any[];
   onSave?: (value: any[]) => void;
   dataType: any[];
   dataRuleExpress: any[];
+  actionRef?: any;
 }
 
-const DataRule: React.FC<DataRuleComponentProps> = ({ value, onSave, dataType, dataRuleExpress }) => {
-  const [formVals, setFormVals] = useState<any>(value ? value[0] : {});
-  const [submitVals, setSubmitVals] = useState<any[]>(value || []);
+const DataRule: React.FC<DataRuleComponentProps> = ({ values, onSave, dataType, dataRuleExpress, actionRef }) => {
+  const [formVals, setFormVals] = useState<any>(values ? { ...values[0], type: values[0]?.authorityDataTyped } : {});
+  const [submitVals, setSubmitVals] = useState<any[]>(values || []);
   const [ruleList, setRuleList] = useState<any[]>([]);
   const [currentDataRule, setCurrentDataRule] = useState<any>({});
   const [dataRule, setDataRule] = useState<any[]>([]);
   const [form] = Form.useForm();
 
+  useImperativeHandle(actionRef, () => ({
+    checkAndSave: async () => {
+      const fieldsValue = await form.validateFields();
+      saveFieldsValue(fieldsValue);
+      return submitVals;
+    }
+  }));
+
   const { loading, run } = useRequest(queryDataRuleList, {
     manual: true,
     onSuccess: (result) => {
-      setRuleList([]);
-      setCurrentDataRule({});
       if (result && result.length > 0) {
         setDataRule(result);
         const rules = result.map((rule: any) => {
@@ -34,28 +41,35 @@ const DataRule: React.FC<DataRuleComponentProps> = ({ value, onSave, dataType, d
           };
         });
         setRuleList(rules);
-        if (formVals) {
-          setCurrentDataRule(result.find((rule: any) => rule.id === formVals.authorityConfigId));
-        }
+        const authorityConfigId = form.getFieldValue('authorityConfigId');
+        const currentRule = result.find((rule: any) => rule.id === authorityConfigId);
+        setCurrentDataRule(currentRule);
       }
     },
   });
 
   useEffect(() => {
-    if (value && value[0] && value[0].authorityDataTyped) {
-      run(value[0].authorityDataTyped);
+    if (values && values[0] && values[0].authorityDataTyped) {
+      run(values[0].authorityDataTyped);
     }
   }, []);
 
   const onDataTypeChange = async (value: any) => {
-    const currentFormVals = submitVals.find(val => val.authorityDataTyped === value.target.value);
-    form.setFieldsValue(currentFormVals || {
-      authorityDataTyped: value.target.value,
-      authorityConfigId: '',
-      ruleExpression: '',
-      ruleValue: '',
-    });
-    run(value.target.value);
+    if (form.getFieldValue('authorityConfigId')) {
+      form.validateFields()
+      .then(fieldsValue => {
+        saveFieldsValue(fieldsValue);
+        setFieldsValue(value.target.value);
+        form.setFieldsValue({ authorityDataTyped: form.getFieldValue('type') });
+        run(value.target.value);
+      })
+      .catch(errorInfo => {
+        form.setFieldsValue({ type: form.getFieldValue('authorityDataTyped') });
+      });
+    } else {
+      form.setFieldsValue({ authorityDataTyped: form.getFieldValue('type') });
+      run(value.target.value);
+    }
   };
 
   const onDataRuleChange = (value: any) => {
@@ -63,14 +77,18 @@ const DataRule: React.FC<DataRuleComponentProps> = ({ value, onSave, dataType, d
     setCurrentDataRule(currentRule);
   };
 
-  const save = async () => {
-    const fieldsValue = await form.validateFields();
+  /**
+   * 保存表单数据到待提交列表
+   * @param fieldsValue 表单数据
+   */
+  const saveFieldsValue = (fieldsValue: any) => {
     if (submitVals.some(val => val.authorityDataTyped === fieldsValue.authorityDataTyped)) {
       submitVals.forEach(val => {
         if (val.authorityDataTyped === fieldsValue.authorityDataTyped) {
           val.authorityConfigId = fieldsValue.authorityConfigId;
           val.ruleExpression = fieldsValue.ruleExpression;
           val.ruleValue = fieldsValue.ruleValue;
+          val.treeValues = fieldsValue.treeValues;
         }
       });
     } else {
@@ -80,7 +98,18 @@ const DataRule: React.FC<DataRuleComponentProps> = ({ value, onSave, dataType, d
     if (onSave) {
       onSave(submitVals);
     }
-    message.success('保存成功');
+  };
+
+  const setFieldsValue = (typeStr: string) => {
+    const currentFormVals = submitVals.find(val => val.authorityDataTyped === typeStr) || values?.find(val => val.authorityDataTyped === typeStr);
+    form.setFieldsValue( currentFormVals ? { ...currentFormVals, type: typeStr } : {
+      type: typeStr,
+      authorityDataTyped: typeStr,
+      authorityConfigId: '',
+      ruleExpression: '',
+      ruleValue: '',
+      treeValues: [],
+    });
   };
 
   const renderDataAuthority = () => {
@@ -90,12 +119,14 @@ const DataRule: React.FC<DataRuleComponentProps> = ({ value, onSave, dataType, d
           <>
             <FormItem
               name='ruleExpression'
-              label='规则表达式'>
+              label='规则表达式'
+              rules={[{ required: true, message: '请选择规则表达式！' }]}>
               <Select options={dataRuleExpress} />
             </FormItem>
             <FormItem
               name='treeValues'
-              label='规则选值'>
+              label='规则选值'
+              rules={[{ required: true, message: '请选择规则值！' }]}>
               <TreeSelect
                 multiple
                 treeData={currentDataRule.data}
@@ -109,12 +140,14 @@ const DataRule: React.FC<DataRuleComponentProps> = ({ value, onSave, dataType, d
           <>
             <FormItem
               name='ruleExpression'
-              label='规则表达式'>
+              label='规则表达式'
+              rules={[{ required: true, message: '请选择规则表达式！' }]}>
               <Select options={dataRuleExpress} />
             </FormItem>
             <FormItem
               name='treeValues'
-              label='规则选值'>
+              label='规则选值'
+              rules={[{ required: true, message: '请选择规则值' }]}>
               <Select mode='multiple'>
                 {currentDataRule.data.map((element: any) => (
                   <Select.Option value={element.key}>{element.titile}</Select.Option>
@@ -129,12 +162,14 @@ const DataRule: React.FC<DataRuleComponentProps> = ({ value, onSave, dataType, d
           <>
             <FormItem
               name='ruleExpression'
-              label='规则表达式'>
+              label='规则表达式'
+              rules={[{ required: true, message: '请选择规则表达式' }]}>
               <Select options={dataRuleExpress} />
             </FormItem>
             <FormItem
               name='ruleValue'
-              label='规则选值'>
+              label='规则值'
+              rules={[{ required: true, message: '请输入规则值' }]}>
               <Input />
             </FormItem>
           </>
@@ -153,18 +188,25 @@ const DataRule: React.FC<DataRuleComponentProps> = ({ value, onSave, dataType, d
         initialValues={{ ...formVals }}
       >
         <FormItem
-          name='authorityDataTyped'
-          label='权限类型'>
+          name='type'
+          label='权限类型'
+          rules={[{ required: true, message: '请选择权限类型！' }]}>
           <Radio.Group options={dataType} optionType='button' onChange={onDataTypeChange}/>
         </FormItem>
         <FormItem
+          name='authorityDataTyped'
+          label='权限类型'
+          hidden>
+          <Radio.Group options={dataType} optionType='button'/>
+        </FormItem>
+        <FormItem
           name='authorityConfigId'
-          label='数据规则'>
+          label='数据规则'
+          rules={[{ required: true, message: '请选择数据规则！' }]}>
           <Select options={ruleList} loading={loading} onChange={onDataRuleChange}/>
         </FormItem>
         {renderDataAuthority()}
       </Form>
-      <Button type='primary' onClick={save}>保存</Button>
     </>
   );
 };

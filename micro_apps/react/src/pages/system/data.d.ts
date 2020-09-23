@@ -9,7 +9,7 @@ export interface TableListItem {
   departments: Departments[];
   roles: Roles[];
   status: string;
-  createdAt: Date;
+  createTime: Date;
   disabled?: boolean;
 }
 

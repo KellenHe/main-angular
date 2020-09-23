@@ -76,7 +76,14 @@ const GLOBAL_THIRD_MODULES = [
 // #region Startup Service
 import { StartupService } from '@core';
 export function StartupServiceFactory(startupService: StartupService) {
-  return () => startupService.load();
+  if (location.pathname !== '/passport/login') {
+    return () => startupService.load();
+  }
+  return () => {
+    return new Promise((resolve, reject) => {
+      resolve();
+    });
+  };
 }
 const APPINIT_PROVIDES = [
   StartupService,
@@ -96,6 +103,7 @@ import { LayoutModule } from './layout/layout.module';
 import { RoutesModule } from './routes/routes.module';
 import { SharedModule } from './shared/shared.module';
 import { STWidgetModule } from './shared/st-widget/st-widget.module';
+import { promise } from 'protractor';
 
 @NgModule({
   declarations: [

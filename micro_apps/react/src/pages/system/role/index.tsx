@@ -72,7 +72,7 @@ const RoleManagement: React.FC<RoleProps> = (props) => {
   const [isUpdate, handleIsUpdate] = useState<boolean>(false);
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [stepFormValues, setStepFormValues] = useState({});
-  const columns: ProColumns<any>[] = [
+  let columns: ProColumns<any>[] = [
     {
       title: '名称',
       dataIndex: 'roleName'
@@ -122,6 +122,11 @@ const RoleManagement: React.FC<RoleProps> = (props) => {
     },
   ];
 
+  // 没有修改和删除权限，隐藏操作列
+  if (!access.canEditRole && !access.canDeleteRole) {
+    columns = columns.filter(c => c.title !== '操作');
+  }
+
   const { dispatch, system }  = props;
 
   useEffect(() => {
@@ -160,7 +165,6 @@ const RoleManagement: React.FC<RoleProps> = (props) => {
         ]}
         columns={columns}
         request={queryRoles}
-        pagination={false}
       />
       {(stepFormValues && Object.keys(stepFormValues).length) || !isUpdate ? (
         <CreateForm

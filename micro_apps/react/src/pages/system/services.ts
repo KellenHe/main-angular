@@ -85,6 +85,15 @@ export async function queryMenu(params: any) {
   });
 }
 
+export async function queryMenuList(params: any) {
+  return request('/authority/menu/list/menu', {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
 export async function updateMenu(params: any) {
   return request('/authority/menu', {
     method: 'PUT',
@@ -110,12 +119,17 @@ export async function deleteMenu(params: any) {
 }
 
 export async function queryRoles(params: any) {
-  return request('/role/basic/list', {
+  const msg = await request(`/role/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
     method: 'POST',
     data: {
       ...params
     }
   });
+
+  return {
+    ...msg,
+    total: msg.page.totalCount
+  };
 }
 
 export async function addRole(params: any) {

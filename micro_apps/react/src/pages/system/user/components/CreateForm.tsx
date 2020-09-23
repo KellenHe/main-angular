@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, Radio, TreeSelect, Select, Button } from 'antd';
 import { TableListItem } from '../../data';
-import { useRequest } from 'umi';
+import { useRequest, useAccess, Access } from 'umi';
 import { queryRoles } from '../../services';
 
 interface CreateFormProps {
@@ -18,16 +18,17 @@ export interface FormValueType extends Partial<TableListItem> {}
 const { Option }  = Select;
 
 const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 4 },
+  wrapperCol: { span: 20 },
 };
 
 const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
+  wrapperCol: { offset: 20, span: 4 },
 };
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
   const [form] = Form.useForm();
+  const access = useAccess();
 
   const {
     onSubmit: handleUpdate,
@@ -39,7 +40,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
   } = props;
 
   const { data, loading } = useRequest(() => {
-    return queryRoles({});
+    return queryRoles({ current: 1, pageSize: 50 });
   });
 
   if (loading) {
@@ -58,6 +59,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
     >
       <Form
         name='basic'
+        {...layout}
         form={form}
         initialValues={{ dep: values?.departments?.map((dep: any) => dep.id), role: values.roles?.map((role: any) => role.id), ...values }}
         onFinish={(formValues) => handleUpdate({id: values.id, ...formValues})}
@@ -76,16 +78,6 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
         >
           <Input />
         </Form.Item>
-        {/* <Form.Item
-          label='性别'
-          name='sex'
-          rules={[{ required: true, message: '请选择性别!' }]}
-        >
-          <Radio.Group>
-            <Radio value={0}>女</Radio>
-            <Radio value={1}>男</Radio>
-          </Radio.Group>
-        </Form.Item> */}
         <Form.Item
           label='电话'
           name='mobile'
@@ -100,28 +92,19 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          label='部门'
-          name='departmentIds'
-          rules={[{ required: true}]}
-        >
-          <TreeSelect
-            multiple
-            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-            treeData={treeData}
-            placeholder='请选择部门'
-          />
-        </Form.Item>
-        {/* <Form.Item
-          label='状态'
-          name='status'
-          rules={[{ required: true, message: '请输入昵称!' }]}
-        >
-          <Radio.Group>
-            <Radio value='1'>激活</Radio>
-            <Radio value='0'>禁用</Radio>
-          </Radio.Group>
-        </Form.Item> */}
+        <Access accessible={access.canViewDep}>
+          <Form.Item
+            label='部门'
+            name='departmentIds'
+          >
+            <TreeSelect
+              multiple
+              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+              treeData={treeData}
+              placeholder='请选择部门'
+            />
+          </Form.Item>
+        </Access>
         <Form.Item
           label='角色'
           name='roleIds'

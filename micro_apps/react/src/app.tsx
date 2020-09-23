@@ -7,7 +7,7 @@ export async function getInitialState(): Promise<{
   currentUser?: API.CurrentUser;
 }> {
   // 如果是登录页面，不执行
-  if (history.location.pathname !== '/user/login') {
+  if (history.location.pathname !== '/passport/login') {
     try {
       const results = await queryCurrent();
       return {

@@ -6,8 +6,6 @@ import { RouteRoutingModule } from './routes-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 // home pages
 import { HomeComponent } from './home/home.component';
-// introduce pages
-import { IntroduceComponent } from './introduce/introduce.component';
 
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
@@ -20,7 +18,6 @@ import { UserLockComponent } from './passport/lock/lock.component';
 const COMPONENTS = [
   DashboardComponent,
   HomeComponent,
-  IntroduceComponent,
   // passport pages
   UserLoginComponent,
   UserRegisterComponent,

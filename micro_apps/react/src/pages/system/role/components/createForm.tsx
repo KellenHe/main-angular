@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Modal, Steps, Form, Button, Input, Select } from 'antd';
 import { RoleTableListItem } from '../../data';
 import { useRequest } from 'umi';
-import { queryMenu } from '../../services';
+import { queryMenuList } from '../../services';
 import FormTree from './formTree';
 import DataRule from './dataRule';
 
@@ -31,6 +31,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
   });
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [form] = Form.useForm();
+  const dataRuleRef = useRef<any>();
 
   const {
     modalVisible,
@@ -44,7 +45,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
   } = props;
 
   const { data } = useRequest(() => {
-    return queryMenu({});
+    return queryMenuList({});
   });
 
   const forward = () => setCurrentStep(currentStep + 1);
@@ -59,7 +60,11 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
     if (currentStep < 2) {
       forward();
     } else {
-      handleUpdate({ ...formVals, ...fieldsValue, id: values.id });
+      let rules;
+      if (dataRuleRef.current) {
+        rules = await dataRuleRef.current.checkAndSave();
+      }
+      handleUpdate({ ...{ ...formVals, ruleDtos: rules}, ...fieldsValue, id: values.id });
     }
   };
 
@@ -73,7 +78,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
   const renderForm = () => {
     if (currentStep === 2) {
       return (
-        <DataRule dataType={dataType} dataRuleExpress={dataRuleExpress} value={values.rules} onSave={dataRuleSave}/>
+        <DataRule dataType={dataType} dataRuleExpress={dataRuleExpress} values={values.rules} onSave={dataRuleSave} actionRef={dataRuleRef}/>
       );
     } else {
       return (

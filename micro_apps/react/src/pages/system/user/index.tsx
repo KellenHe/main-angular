@@ -6,6 +6,7 @@ import { useRequest, useAccess, Access } from 'umi';
 import CreateForm, { FormValueType } from './components/CreateForm';
 import { TableListItem, Departments } from '../data';
 import styles from '../style.less';
+import moment from 'moment';
 
 /**
  * 添加用户
@@ -68,7 +69,7 @@ const UserManagement: React.FC<{}> = () => {
   const [stepFormValues, setStepFormValues] = useState({});
   const [selectedDepKeys, setSelectedDepKeys] = useState<any[]>([]);
   const actionRef = useRef<ActionType>();
-  const columns: ProColumns<TableListItem>[] = [
+  let columns: ProColumns<TableListItem>[] = [
     {
       title: '关键字',
       dataIndex: 'keyword',
@@ -116,13 +117,13 @@ const UserManagement: React.FC<{}> = () => {
     //   },
     //   render: (_, row) => <Switch checked={row.status === '1' ? true : false} />,
     // },
-    // {
-    //   title: '创建日期',
-    //   dataIndex: 'createdAt',
-    //   valueType: 'dateRange',
-    //   render: (_, row) => <span>{row.createdAt}</span>,
-    //   hideInForm: true,
-    // },
+    {
+      title: '创建日期',
+      dataIndex: 'createTime',
+      valueType: 'dateRange',
+      render: (_, row) => <span>{moment(row.createTime).format('YYYY-MM-DD')}</span>,
+      hideInSearch: true
+    },
     {
       title: '操作',
       dataIndex: 'option',
@@ -157,6 +158,15 @@ const UserManagement: React.FC<{}> = () => {
     },
   ];
 
+  // 没有部门权限，隐藏部门列
+  if (!access.canViewDep) {
+    columns = columns.filter(c => c.title !== '部门');
+  }
+  // 没有修改和删除权限，隐藏操作列
+  if (!access.canEditUser && !access.canDeleteUser) {
+    columns = columns.filter(c => c.title !== '操作');
+  }
+
   const confirm = async (fields: FormValueType) => {
     const success = await handleDelete(fields);
     if (success) {
@@ -174,26 +184,26 @@ const UserManagement: React.FC<{}> = () => {
     }
   };
 
-  const { data, loading } = useRequest(() => {
-    return queryDep({});
-  });
-
-  if (loading) {
-    return (
-      <div>loading</div>
-    );
+  let treeData;
+  if (access.canViewDep) {
+    const { data } = useRequest(() => {
+      return queryDep({});
+    });
+    treeData = data;
   }
 
   return (
     <Row style={{ margin: '0 -24px' }}>
-      <Col flex='280px'>
-        <Card title='部门' style={{ marginBottom: '0px' }} className={styles.siderBarFull}>
-          <Tree
-            onSelect={onSelect}
-            treeData={data}
-          />
-        </Card>
-      </Col>
+      <Access accessible={access.canViewDep}>
+        <Col flex='280px'>
+          <Card title='部门' style={{ marginBottom: '0px' }} className={styles.siderBarFull}>
+            <Tree
+              onSelect={onSelect}
+              treeData={treeData}
+            />
+          </Card>
+        </Col>
+      </Access>
       <Col flex='1' style={{ minWidth: 0 }}>
         <div className='p-lg'>
           <ProTable<TableListItem>
@@ -237,7 +247,7 @@ const UserManagement: React.FC<{}> = () => {
               onCancel={() => { handleModalVisible(false); setStepFormValues({}); }}
               modalVisible={createModalVisible}
               values={stepFormValues}
-              treeData={data}
+              treeData={treeData}
               isUpdate={isUpdate}>
             </CreateForm>
           ) : null}

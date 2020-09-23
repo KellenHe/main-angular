@@ -72,7 +72,7 @@ const DepartmentManagement: React.FC<DepartmentProps> = (props) => {
   const [modalVisible, handleModalVisible] = useState<boolean>(false);
   const [isUpdate, handleIsUpdate] = useState<boolean>(false);
   const [stepFormValues, setStepFormValues] = useState<Partial<Departments>>();
-  const columns: ProColumns<any>[] = [
+  let columns: ProColumns<any>[] = [
     {
       title: '名称',
       dataIndex: 'departmentName'
@@ -111,6 +111,11 @@ const DepartmentManagement: React.FC<DepartmentProps> = (props) => {
       ),
     },
   ];
+
+  // 没有修改和删除权限，隐藏操作列
+  if (!access.canEditDep && !access.canDeleteDep) {
+    columns = columns.filter(c => c.title !== '操作');
+  }
 
   const confirm = async (fields: any) => {
     const success = await handleDelete(fields);
@@ -161,6 +166,9 @@ const DepartmentManagement: React.FC<DepartmentProps> = (props) => {
               if (actionRef.current) {
                 actionRef.current.reload();
               }
+              dispatch({
+                type: 'system/queryDepTree',
+              });
             }
           }}
           onCancel={() => { handleModalVisible(false); setStepFormValues({}); }}

@@ -73,7 +73,7 @@ const MenuManagement: React.FC<{}> = () => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [stepFormValues, setStepFormValues] = useState({...defaultFormValue});
   const actionRef = useRef<ActionType>();
-  const columns: ProColumns<any>[] = [
+  let columns: ProColumns<any>[] = [
     {
       title: '菜单标题',
       dataIndex: 'title'
@@ -133,6 +133,11 @@ const MenuManagement: React.FC<{}> = () => {
     },
   ];
 
+  // 没有修改和删除权限，隐藏操作列
+  if (!access.canEditMenu && !access.canDeleteMenu) {
+    columns = columns.filter(c => c.title !== '操作');
+  }
+
   const confirm = async (fields: any) => {
     const success = await handleDelete(fields);
     if (success) {
@@ -180,6 +185,7 @@ const MenuManagement: React.FC<{}> = () => {
             if (actionRef.current) {
               actionRef.current.reload();
             }
+            message.info('添加成功，请重新登录刷新菜单！');
           }
         }}
         values={stepFormValues}

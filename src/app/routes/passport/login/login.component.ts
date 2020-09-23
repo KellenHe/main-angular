@@ -127,17 +127,6 @@ export class UserLoginComponent implements OnDestroy {
       password: this.password.value
     };
 
-    const body =
-      'client_id=client' +
-      '&client_secret=secret' +
-      '&login_type=simple:web' +
-      '&grant_type=password' +
-      '&username=' +
-      this.userName.value +
-      '&password=' +
-      this.password.value;
-    // CryptoJS.SHA256(this.password.value).toString(CryptoJS.enc.Hex);
-
     // 默认配置中对所有HTTP请求都会强制 [校验](https://ng-alain.com/auth/getting-started) 用户 Token
     // 然一般来说登录请求不需要校验，因此可以在请求URL加上：`/login?_allow_anonymous=true` 表示不触发用户 Token 校验
     this.http

@@ -41,16 +41,16 @@ export class DefaultInterceptor implements HttpInterceptor {
     setTimeout(() => this.injector.get(Router).navigateByUrl(url));
   }
 
-  private checkStatus(ev: HttpResponseBase) {
+  private checkStatus(ev: HttpErrorResponse) {
     if ((ev.status >= 200 && ev.status < 300) || ev.status === 401) {
       return;
     }
 
-    const errortext = CODEMESSAGE[ev.status] || ev.statusText;
-    this.notification.error(`请求错误 ${ev.status}: ${ev.url}`, errortext);
+    const errortext = ev.error.error_description || CODEMESSAGE[ev.status] || ev.statusText;
+    this.notification.error(`请求错误 ${ev.status}`, errortext);
   }
 
-  private handleData(ev: HttpResponseBase): Observable<any> {
+  private handleData(ev: HttpErrorResponse): Observable<any> {
     // 可能会因为 `throw` 导出无法执行 `_HttpClient` 的 `end()` 操作
     if (ev.status > 0) {
       this.injector.get(_HttpClient).end();
@@ -114,7 +114,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     return next.handle(newReq).pipe(
       mergeMap((event: any) => {
         // 允许统一对请求错误处理
-        if (event instanceof HttpResponseBase) {
+        if (event instanceof HttpErrorResponse) {
           return this.handleData(event);
         }
         // 若一切都正常，则后续操作

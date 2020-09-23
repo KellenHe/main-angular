@@ -2,13 +2,13 @@
 export default function access(initialState: { currentUser?: API.CurrentUser | undefined }) {
   const { currentUser } = initialState || {};
   return {
-    canAdmin: currentUser && currentUser.access === 'admin',
     canAddUser: canAccess(currentUser, 'btn:user:add'),
     canEditUser: canAccess(currentUser, 'btn:user:edit'),
     canDeleteUser: canAccess(currentUser, 'btn:user:delete'),
     canAddRole: canAccess(currentUser, 'btn:role:add'),
     canEditRole: canAccess(currentUser, 'btn:role:edit'),
     canDeleteRole: canAccess(currentUser, 'btn:role:delete'),
+    canViewDep: canAccess(currentUser, 'btn:department:view'),
     canAddDep: canAccess(currentUser, 'btn:department:add'),
     canEditDep: canAccess(currentUser, 'btn:department:edit'),
     canDeleteDep: canAccess(currentUser, 'btn:department:delete'),

@@ -7,8 +7,6 @@ import { LayoutDefaultComponent } from '../layout/default/default.component';
 import { LayoutPassportComponent } from '../layout/passport/passport.component';
 // home pages
 import { HomeComponent } from './home/home.component';
-// introduce pages
-import { IntroduceComponent } from './introduce/introduce.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterComponent } from './passport/register/register.component';
@@ -24,7 +22,7 @@ const routes: Routes = [
     canActivate: [SimpleGuard],
     children: [
       { path: '', redirectTo: 'introduce', pathMatch: 'full' },
-      { path: 'introduce', component: IntroduceComponent, data: { title: '介绍' } },
+      { path: 'introduce', loadChildren: () => import('./introduce/introduce.module').then(m => m.IntroduceModule) },
       { path: 'home', component: HomeComponent, data: { title: '开始' } },
       { path: 'components', loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule) },
       { path: 'system', loadChildren: () => import('./system/system.module').then(m => m.SystemModule) },

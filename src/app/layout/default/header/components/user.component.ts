@@ -19,7 +19,7 @@ import { SettingsService } from '@delon/theme';
       <div nz-menu class="width-sm">
         <div nz-menu-item (click)="logout()">
           <i nz-icon nzType="logout" class="mr-sm"></i>
-          {{ 'menu.account.logout' | translate }}
+          退出登录
         </div>
       </div>
     </nz-dropdown-menu>
