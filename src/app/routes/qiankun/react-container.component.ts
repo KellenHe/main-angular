@@ -6,12 +6,12 @@ import { environment } from '@env/environment';
 import { loadMicroApp } from 'qiankun';
 
 @Component({
-  selector: 'app-menu-container',
+  selector: 'app-react-container',
   template: `
-    <div id="subapp-container"></div>
+    <div id="react-container"></div>
   `
 })
-export class MenuContainerComponent implements OnInit, OnDestroy {
+export class ReactContainerComponent implements OnInit, OnDestroy {
 
   microApp;
 
@@ -22,7 +22,7 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
       {
         name: 'react-app',
         entry: environment.reactAppAddress,
-        container: '#subapp-container',
+        container: '#react-container',
       }
     );
   }

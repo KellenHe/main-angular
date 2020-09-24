@@ -25,7 +25,7 @@ const routes: Routes = [
       { path: 'introduce', loadChildren: () => import('./introduce/introduce.module').then(m => m.IntroduceModule) },
       { path: 'home', component: HomeComponent, data: { title: '开始' } },
       { path: 'components', loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule) },
-      { path: 'system', loadChildren: () => import('./system/system.module').then(m => m.SystemModule) },
+      { path: '', loadChildren: () => import('./qiankun/qiankun.module').then(m => m.QiankunModule) },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
