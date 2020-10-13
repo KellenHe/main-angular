@@ -156,7 +156,7 @@ const RoleManagement: React.FC<RoleProps> = (props) => {
         headerTitle='角色列表'
         actionRef={actionRef}
         rowKey='id'
-        toolBarRender={(action, { selectedRows }) => [
+        toolBarRender={() => [
           <Access accessible={access.canAddRole}>
             <Button type='primary' onClick={() => { handleModalVisible(true); handleIsUpdate(false); }}>
               新建
