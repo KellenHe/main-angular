@@ -184,12 +184,24 @@ const UserManagement: React.FC<{}> = () => {
     }
   };
 
+  const loopTree = (datas: any[]) => {
+    datas.forEach(data => {
+      data.value = data.key;
+      if (data.children && data.children.length > 0) {
+        loopTree(data.children);
+      }
+    });
+  };
+
   let treeData;
   if (access.canViewDep) {
     const { data } = useRequest(() => {
       return queryDep({});
     });
-    treeData = data;
+    if (data && data.length > 0) {
+      loopTree(data);
+      treeData = data;
+    }
   }
 
   return (
