@@ -76,6 +76,18 @@ export default defineConfig({
       component: './system/menu',
     },
     {
+      path: '/ops/task',
+      name: 'TaskManagement',
+      icon: 'smile',
+      component: './ops/task',
+    },
+    {
+      path: '/flow/config',
+      name: 'ConfigManagement',
+      icon: 'smile',
+      component: './flow/config',
+    },
+    {
       path: '/',
       redirect: '/system/user',
     },

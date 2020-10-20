@@ -15,6 +15,10 @@ export default function access(initialState: { currentUser?: API.CurrentUser | u
     canAddMenu: canAccess(currentUser, 'btn:menu:add'),
     canEditMenu: canAccess(currentUser, 'btn:menu:edit'),
     canDeleteMenu: canAccess(currentUser, 'btn:menu:delete'),
+    canViewTask: canAccess(currentUser, 'btn:task:view'),
+    canAddTask: canAccess(currentUser, 'btn:task:add'),
+    canEditTask: canAccess(currentUser, 'btn:task:edit'),
+    canDeleteTask: canAccess(currentUser, 'btn:task:delete'),
   };
 }
 

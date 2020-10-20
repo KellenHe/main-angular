@@ -9,6 +9,8 @@ const routes: Routes = [
   { path: 'system/role', component: ReactContainerComponent, data: { title: '角色管理' } },
   { path: 'system/department', component: ReactContainerComponent, data: { title: '部门管理' } },
   { path: 'system/menu', component: ReactContainerComponent, data: { title: '菜单管理' } },
+  { path: 'ops/task', component: ReactContainerComponent, data: { title: '任务管理' } },
+  { path: 'flow/config', component: ReactContainerComponent, data: { title: '流程配置' } },
 ];
 
 @NgModule({
