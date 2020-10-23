@@ -48,6 +48,13 @@ export async function queryTaskDetail(id: string) {
   return request(`/quartz/job/detail/${id}`);
 }
 
+// 启动任务
+export function startTask(id: string) {
+  return request(`/quartz/job/start/${id}`, {
+    method: 'PUT'
+  });
+}
+
 // 暂停任务
 export function pauseTask(id: string) {
   return request(`/quartz/job/pause/${id}`, {

@@ -1,5 +1,5 @@
 import { Effect, Reducer } from 'umi';
-import { JobStatusItem } from './data';
+import { DictTypeItem } from './data';
 import { queryDictByType } from './services';
 
 export interface ModelState {
@@ -21,7 +21,7 @@ export interface ModelType {
  * 状态枚举转换
  * @param fields 参数
  */
-const statusEnum = (statusList: JobStatusItem[]) => {
+const statusEnum = (statusList: DictTypeItem[]) => {
   const valueEnum = {};
   for (const status of statusList) {
     valueEnum[status.value] = {
