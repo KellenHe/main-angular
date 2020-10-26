@@ -163,3 +163,54 @@ export async function queryDictByType(type: string) {
 export async function queryDataRuleList(authorityDataTyped: string) {
   return request(`/authority/rule/config/list/${authorityDataTyped}`);
 }
+
+export async function addAuthorityData(params: any) {
+  return request('/authority/rule/config', {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function updateAuthorityData(params: any) {
+  return request('/authority/rule/config', {
+    method: 'PUT',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function deleteAuthorityData(id: number) {
+  return request(`/authority/rule/config/${id}`, {
+    method: 'DELETE'
+  });
+}
+
+export async function queryAuthorityData(params: any) {
+  const msg = await request(`/authority/rule/config/list?page=${params.current - 1}&size=${params.pageSize}`, {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+
+  return {
+    ...msg,
+    total: msg.page.totalCount
+  }
+}
+
+export async function searchAuthorityData(keyword: string) {
+  return request(`/api/authority/rule/config/search/${keyword}`, {
+    method: 'GET'
+  });
+}
+
+export async function getAuthorityDataDetail(id: number) {
+  return request(`/authority/rule/config/detail/${id}`, {
+    method: 'GET'
+  });
+}
+

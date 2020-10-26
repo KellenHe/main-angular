@@ -76,6 +76,42 @@ export default defineConfig({
       component: './system/menu',
     },
     {
+      path: '/ops/task',
+      name: 'TaskManagement',
+      icon: 'smile',
+      component: './ops/task',
+    },
+    {
+      path: '/flow/config',
+      name: 'ConfigManagement',
+      icon: 'smile',
+      component: './flow/config',
+    },
+    {
+      path: '/system/authority_data',
+      name: 'AuthorityDataManagement',
+      icon: 'smile',
+      component: './system/authorityData',
+    },
+    {
+      path: '/ops/database',
+      name: 'databaseManagement',
+      icon: 'smile',
+      component: './ops/database'
+    },
+    {
+      path: '/ops/server',
+      name: 'serverManagement',
+      icon: 'smile',
+      component: './ops/server'
+    },
+    {
+      path: '/ops/dict',
+      name: 'dictManagement',
+      icon: 'smile',
+      component: './ops/dict'
+    },
+    {
       path: '/',
       redirect: '/system/user',
     },

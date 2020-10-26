@@ -48,3 +48,15 @@ export interface RoleTableListItem {
   ruleDtos: any[];
   rules: any[];
 }
+
+export interface AuthorityData {
+  id: number;
+  authorityDataTyped: string;
+  tableName: string;
+  columnName: string;
+  columnDisplayName: string;
+  frontColumnTyped: string;
+  serviceClass: string;
+  serviceMethod: string;
+  serviceParams: string;
+}
