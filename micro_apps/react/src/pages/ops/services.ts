@@ -80,3 +80,216 @@ export function runTask(id: string) {
 export async function queryDictByType(type: string) {
   return request(`/system/dict/basic/list/type/${type}`);
 }
+
+export async function addDatabase(params: any) {
+  return request('/system/database/basic', {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function updateDatabase(params: any) {
+  return request('/system/database/basic', {
+    method: 'PUT',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function deleteDatabase(id: number) {
+  return request(`/system/database/basic/${id}`, {
+    method: 'DELETE'
+  });
+}
+
+export async function queryDatabase(params: any) {
+  return request(`/system/database/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function searchDatabase(keyword: string) {
+  return request(`/system/database/basic/search/${keyword}`, {
+    method: 'GET'
+  });
+}
+
+export async function getDatabaseDetail(id: number) {
+  return request(`/system/database/basic/detail/${id}`, {
+    method: 'GET'
+  });
+}
+
+export async function testDatabase(params: any) {
+  return request(`/system/database/basic/test`, {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function addServer(params: any) {
+  return request('/system/server/basic', {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function updateServer(params: any) {
+  return request('/system/server/basic', {
+    method: 'PUT',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function deleteServer(id: number) {
+  return request(`/system/server/basic/${id}`, {
+    method: 'DELETE'
+  });
+}
+
+export async function queryServer(params: any) {
+  return request(`/system/server/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function searchServer(keyword: string) {
+  return request(`/system/server/basic/search/${keyword}`, {
+    method: 'GET'
+  });
+}
+
+export async function getServerDetail(id: number) {
+  return request(`/system/server/basic/detail/${id}`, {
+    method: 'GET'
+  });
+}
+
+export async function testServer(params: any) {
+  return request(`/system/server/basic/test`, {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function addDictType(params: any) {
+  return request('/system/dict/type', {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function updateDictType(params: any) {
+  return request('/system/dict/type', {
+    method: 'PUT',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function deleteDictType(id: number) {
+  return request(`/system/dict/type/${id}`, {
+    method: 'DELETE'
+  });
+}
+
+export async function queryDictType(params: any) {
+  return request(`/system/dict/type/list?page=${params.current - 1}&size=${params.pageSize}`, {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function searchDictType(keyword: string) {
+  return request(`/system/dict/type/search/${keyword}`, {
+    method: 'GET'
+  });
+}
+
+export async function getDictTypeDetail(id: number) {
+  return request(`/system/dict/type/detail/${id}`, {
+    method: 'GET'
+  });
+}
+
+export async function addDict(params: any) {
+  return request('/system/dict/basic', {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function updateDict(params: any) {
+  return request('/system/dict/basic', {
+    method: 'PUT',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function deleteDict(id: number) {
+  return request(`/system/dict/basic/${id}`, {
+    method: 'DELETE'
+  });
+}
+
+export async function queryDict(params: any) {
+  return request(`/system/dict/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}
+
+export async function searchDict(keyword: string) {
+  return request(`/system/dict/basic/search/${keyword}`, {
+    method: 'GET'
+  });
+}
+
+export async function getDictDetail(id: number) {
+  return request(`/system/dict/basic/detail/${id}`, {
+    method: 'GET'
+  });
+}
+
+export async function deleteFile(id: number) {
+  return request(`/file/basic/${id}`, {
+    method: 'DELETE'
+  });
+}
+
+export async function queryFile(params: any) {
+  return request(`/file/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
+    method: 'POST',
+    data: {
+      ...params
+    }
+  });
+}

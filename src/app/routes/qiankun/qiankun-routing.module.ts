@@ -11,6 +11,11 @@ const routes: Routes = [
   { path: 'system/menu', component: ReactContainerComponent, data: { title: '菜单管理' } },
   { path: 'ops/task', component: ReactContainerComponent, data: { title: '任务管理' } },
   { path: 'flow/config', component: ReactContainerComponent, data: { title: '流程配置' } },
+  { path: 'system/authority_data', component: ReactContainerComponent, data: { title: '权限配置' } },
+  { path: 'ops/database', component: ReactContainerComponent, data: { title: '数据库管理' } },
+  { path: 'ops/server', component: ReactContainerComponent, data: { title: '服务器管理' } },
+  { path: 'ops/dict', component: ReactContainerComponent, data: { title: '字典管理' } },
+  { path: 'ops/file', component: ReactContainerComponent, data: { title: '文件管理' } },
 ];
 
 @NgModule({

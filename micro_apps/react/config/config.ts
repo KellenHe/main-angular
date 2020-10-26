@@ -88,6 +88,30 @@ export default defineConfig({
       component: './flow/config',
     },
     {
+      path: '/system/authority_data',
+      name: 'AuthorityDataManagement',
+      icon: 'smile',
+      component: './system/authorityData',
+    },
+    {
+      path: '/ops/database',
+      name: 'databaseManagement',
+      icon: 'smile',
+      component: './ops/database'
+    },
+    {
+      path: '/ops/server',
+      name: 'serverManagement',
+      icon: 'smile',
+      component: './ops/server'
+    },
+    {
+      path: '/ops/dict',
+      name: 'dictManagement',
+      icon: 'smile',
+      component: './ops/dict'
+    },
+    {
       path: '/',
       redirect: '/system/user',
     },
