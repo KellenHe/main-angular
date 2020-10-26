@@ -189,12 +189,17 @@ export async function deleteAuthorityData(id: number) {
 }
 
 export async function queryAuthorityData(params: any) {
-  return request(`/authority/rule/config/list?page=${params.current - 1}&size=${params.pageSize}`, {
+  const msg = await request(`/authority/rule/config/list?page=${params.current - 1}&size=${params.pageSize}`, {
     method: 'POST',
     data: {
       ...params
     }
   });
+
+  return {
+    ...msg,
+    total: msg.page.totalCount
+  }
 }
 
 export async function searchAuthorityData(keyword: string) {

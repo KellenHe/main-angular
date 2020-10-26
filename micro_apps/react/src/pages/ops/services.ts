@@ -106,12 +106,17 @@ export async function deleteDatabase(id: number) {
 }
 
 export async function queryDatabase(params: any) {
-  return request(`/system/database/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
+  const msg = await request(`/system/database/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
     method: 'POST',
     data: {
       ...params
     }
   });
+
+  return {
+    ...msg,
+    total: msg.page.totalCount
+  }
 }
 
 export async function searchDatabase(keyword: string) {
@@ -160,12 +165,17 @@ export async function deleteServer(id: number) {
 }
 
 export async function queryServer(params: any) {
-  return request(`/system/server/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
+  const msg = await request(`/system/server/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
     method: 'POST',
     data: {
       ...params
     }
   });
+
+  return {
+    ...msg,
+    total: msg.page.totalCount
+  }
 }
 
 export async function searchServer(keyword: string) {
@@ -214,12 +224,17 @@ export async function deleteDictType(id: number) {
 }
 
 export async function queryDictType(params: any) {
-  return request(`/system/dict/type/list?page=${params.current - 1}&size=${params.pageSize}`, {
+  const msg = await request(`/system/dict/type/list?page=${params.current - 1}&size=${params.pageSize}`, {
     method: 'POST',
     data: {
       ...params
     }
   });
+
+  return {
+    ...msg,
+    total: msg.page.totalCount
+  }
 }
 
 export async function searchDictType(keyword: string) {
@@ -259,12 +274,17 @@ export async function deleteDict(id: number) {
 }
 
 export async function queryDict(params: any) {
-  return request(`/system/dict/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
+  const msg = await request(`/system/dict/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
     method: 'POST',
     data: {
       ...params
     }
   });
+
+  return {
+    ...msg,
+    total: msg.page.totalCount
+  }
 }
 
 export async function searchDict(keyword: string) {
@@ -286,10 +306,15 @@ export async function deleteFile(id: number) {
 }
 
 export async function queryFile(params: any) {
-  return request(`/file/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
+  const msg = await request(`/file/basic/list?page=${params.current - 1}&size=${params.pageSize}`, {
     method: 'POST',
     data: {
       ...params
     }
   });
+
+  return {
+    ...msg,
+    total: msg.page.totalCount
+  }
 }
