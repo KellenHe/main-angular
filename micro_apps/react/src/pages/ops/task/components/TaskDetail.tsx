@@ -67,7 +67,6 @@ const TaskDetail: React.FC<TaskDetailProps> = (props) => {
 
   return (
     <div style={{margin: '0 auto', width: '95%'} }>
-      <h3>任务列表</h3>
       <Table
         columns={jobType}
         size='small'

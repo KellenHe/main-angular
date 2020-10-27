@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Select, Button, Row, Col, Spin } from 'antd';
+import { Modal, Form, Input, Select, Button, Row, Col, Spin, Tooltip } from 'antd';
 import { useRequest } from 'umi';
 import { queryDictByType, queryTaskDetail } from '../../services';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { TaskParams, TaskDetails, DictTypeItem } from '../../data';
 
 interface CreateFormProps {
@@ -80,6 +80,20 @@ const taskTableToGroup = (formValues: any, typeParams: DictTypeItem[]) => {
   params.params = paramList;
   return params;
 };
+
+const cornTooltip = (
+  <span>
+    每隔5秒执行：*/5 * * * * ?<br/>
+    每隔1分钟执行：0 */1 * * * ?<br/>
+    每天23点执行：0 0 23 * * ?<br/>
+    每天凌晨1点执行：0 0 1 * * ?<br/>
+    每月月初凌晨1点执行：0 0 1 1 * ?<br/>
+    每月月末23点执行：0 0 23 L * ?<br/>
+    每周日凌晨1点实行：0 0 1 ? * L<br/>
+    {/* 在26分、29分、33分执行：0 26,29,33 * * * ?<br/>
+    每天的0点、13点、18点、21点都执行：0 0 0,13,18,21 * * ?<br/> */}
+  </span>
+);
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
   const {
@@ -288,6 +302,15 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
         <Row gutter={[16, 24]}>
           <Col span={12}>
              <Form.Item style={{marginBottom: '12px'}}
+              label='任务分组'
+              name='jobGroup'
+              rules={[{ required: true, message: '请输入任务分组!' }]}
+            >
+              <Input placeholder='任务分组'/>
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+             <Form.Item style={{marginBottom: '12px'}}
               label='任务名称'
               name='jobName'
               rules={[{ required: true, message: '请输入任务名称!' }]}
@@ -297,11 +320,20 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
           </Col>
           <Col span={12}>
              <Form.Item style={{marginBottom: '12px'}}
-              label='cron表达式'
+              label={
+                <span>
+                  cron表达式&nbsp;
+                  <Tooltip title={cornTooltip}>
+                    <QuestionCircleOutlined />
+                  </Tooltip>
+                </span>
+              }
               name='jobCron'
             >
               <Input placeholder='0/7 * * * * ?'/>
             </Form.Item>
+          </Col>
+          <Col span={12}>
           </Col>
           <Col span={12}>
              <Form.Item style={{marginBottom: '12px'}}
@@ -327,15 +359,6 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
               rules={[{ required: true, message: '请选择调用方式!' }]}
             >
               <Select options={jobType} onChange={onTypeSelected} />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-             <Form.Item style={{marginBottom: '12px'}}
-              label='任务分组'
-              name='jobGroup'
-              rules={[{ required: true, message: '请输入任务分组!' }]}
-            >
-              <Input placeholder='任务分组'/>
             </Form.Item>
           </Col>
         </Row>

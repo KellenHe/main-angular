@@ -130,14 +130,12 @@ const CreateForm: React.FC<CreateFormPorps> = (props) => {
         <Form.Item
           name='serviceClass'
           label='接口类'
-          rules={[{ required: true, message: '请输入接口类！' }]}
         >
           <Input placeholder='请输入' />
         </Form.Item>
         <Form.Item
           name='serviceMethod'
           label='接口方法'
-          rules={[{ required: true, message: '请输入接口方法！' }]}
         >
           <Input placeholder='请输入' />
         </Form.Item>
