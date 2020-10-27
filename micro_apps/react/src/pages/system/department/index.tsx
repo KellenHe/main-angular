@@ -142,7 +142,7 @@ const DepartmentManagement: React.FC<DepartmentProps> = (props) => {
         rowKey='key'
         toolBarRender={(action, { selectedRows }) => [
           <Access accessible={access.canAddDep}>
-            <Button type='primary' onClick={() => { handleModalVisible(true); handleIsUpdate(false); setStepFormValues({}); }}>
+            <Button type='primary' onClick={() => { handleModalVisible(true); handleIsUpdate(false); }}>
               新建
             </Button>
           </Access>,
