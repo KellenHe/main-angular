@@ -158,12 +158,12 @@ const TaskManagement: React.FC<TaskProps> = (props) => {
 
   let columns: ProColumns<any>[] = [
     {
-      title: '任务名称',
-      dataIndex: 'jobName',
-    },
-    {
       title: '任务分组',
       dataIndex: 'jobGroup',
+    },
+    {
+      title: '任务名称',
+      dataIndex: 'jobName',
     },
     {
       title: '任务负责人',
@@ -232,11 +232,12 @@ const TaskManagement: React.FC<TaskProps> = (props) => {
                 <Button type='primary' onClick={async () => { confirm(record.id, record.jobStatus); }}>恢复</Button>
               </Tooltip>
             </Access> : ''}
-          <Access accessible={access.canRunTask}>
-            <Tooltip title='执行'>
-              <Button type='primary' onClick={async () => { confirm(record.id, 'run'); }}>执行</Button>
-            </Tooltip>
-          </Access>
+          { record.jobStatus === 'start' ?
+            <Access accessible={access.canRunTask}>
+              <Tooltip title='执行'>
+                <Button type='primary' onClick={async () => { confirm(record.id, 'run'); }}>执行</Button>
+              </Tooltip>
+            </Access> : ''}
           <Access accessible={access.canDeleteTask}>
             <Tooltip title='删除'>
               <Popconfirm
