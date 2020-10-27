@@ -89,23 +89,29 @@ const CreateForm: React.FC<CreateFormPorps> = (props) => {
         <Form.Item {...tailLayout}>
           <Access accessible={access.canTestServer}>
             <Button onClick={async () => {
-              const hide = message.loading('正在测试');
-              handleIsConnectable(false);
-              try {
-                const { success, data } = await testServer({ ...form.getFieldsValue() });
-                hide();
-                if (success && data) {
-                  message.success('服务器连接正常！');
-                  handleIsConnectable(true);
-                } else {
-                  message.error('服务器连接失败！');
-                }
-                return true;
-              } catch (error) {
-                hide();
-                message.error('服务器连接失败！');
-                return false;
-              }
+              form.validateFields()
+                .then(async values => {
+                  const hide = message.loading('正在测试');
+                  handleIsConnectable(false);
+                  try {
+                    const { success, data } = await testServer({ ...values });
+                    hide();
+                    if (success && data) {
+                      message.success('服务器连接正常！');
+                      handleIsConnectable(true);
+                    } else {
+                      message.error('服务器连接失败！');
+                    }
+                    return true;
+                  } catch (error) {
+                    hide();
+                    message.error('服务器连接失败！');
+                    return false;
+                  }
+                })
+                .catch(errors => {
+                  console.log(errors);
+                });
             }}>测试连接</Button>
           </Access>
           <Button type='primary' htmlType='submit' disabled={!isConnectable}>

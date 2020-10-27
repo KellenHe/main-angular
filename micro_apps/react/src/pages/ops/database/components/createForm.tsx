@@ -89,23 +89,29 @@ const CreateForm: React.FC<CreateFormPorps> = (props) => {
         <Form.Item {...tailLayout}>
           <Access accessible={access.canTestDatabase}>
             <Button onClick={async () => {
-              const hide = message.loading('正在测试');
-              handleIsConnectable(false);
-              try {
-                const { success, data } = await testDatabase({ ...form.getFieldsValue() });
-                hide();
-                if (success && data) {
-                  message.success('数据库连接正常！');
-                  handleIsConnectable(true);
-                } else {
-                  message.error('数据库连接失败！');
-                }
-                return true;
-              } catch (error) {
-                hide();
-                message.error('数据库连接失败！');
-                return false;
-              }
+              form.validateFields()
+                .then(async values => {
+                  const hide = message.loading('正在测试');
+                  handleIsConnectable(false);
+                  try {
+                    const { success, data } = await testDatabase({ ...values });
+                    hide();
+                    if (success && data) {
+                      message.success('数据库连接正常！');
+                      handleIsConnectable(true);
+                    } else {
+                      message.error('数据库连接失败！');
+                    }
+                    return true;
+                  } catch (error) {
+                    hide();
+                    message.error('数据库连接失败！');
+                    return false;
+                  }
+                })
+                .catch(errorInfo => {
+                  // console.log(errorInfo);
+                });
             }}>测试连接</Button>
           </Access>
           <Button type='primary' htmlType='submit' disabled={!isConnectable}>
